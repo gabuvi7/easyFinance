@@ -30,6 +30,7 @@
     "react/react-in-jsx-scope": "off",
     "semi": 1,
     "@typescript-eslint/semi": "error",
-    "endOfLine": "auto"
+    "linebreak-style": 0,
+    "@next/next/no-html-link-for-pages": ["error", "/app"]
   }
 }
