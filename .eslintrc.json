@@ -29,6 +29,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/react-in-jsx-scope": "off",
     "semi": 1,
-    "@typescript-eslint/semi": "error"
+    "@typescript-eslint/semi": "error",
+    "endOfLine": "auto"
   }
 }
