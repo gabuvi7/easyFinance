@@ -1,4 +1,4 @@
-import { ChildrenProps } from '../../utils/interface';
+import { ChildrenProps } from '../../utils/interfaces/childrenPropsInterface';
 
 function DashboardLayout({ children }: ChildrenProps) {
   return <div>{children}</div>;
