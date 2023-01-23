@@ -4,14 +4,9 @@ import Link from 'next/link';
 import { HiChartPie } from 'react-icons/hi';
 import { IoPersonCircleOutline, IoWallet } from 'react-icons/io5';
 import logo from '../../public/easyFinance-logo.svg';
-import {
-  ICON_SIZE,
-  MENU_LINK_CSS_CLASSES,
-  MENU_TITLE_CSS_CLASSES,
-  PROFILE_LINK_CSS_CLASSES,
-  PROFILE_TITLE_CSS_CLASSES,
-} from '../../utils';
+import { ICON_SIZE } from '../../utils';
 import Navigator from '../Navigator/Navigator';
+import menuStyles from './menu.module.scss';
 
 function Menu() {
   const Routes = [
@@ -42,15 +37,15 @@ function Menu() {
         <div className="flex flex-col items-center w-full mt-3 border-t border-gray-700">
           <Navigator
             pathNames={Routes}
-            linkCssClasses={MENU_LINK_CSS_CLASSES}
-            titleCssClasses={MENU_TITLE_CSS_CLASSES}
+            linkCssClasses={menuStyles.menu_link}
+            titleCssClasses={menuStyles.menu_title}
           />
         </div>
       </div>
       <Navigator
         pathNames={ProfileRoute}
-        linkCssClasses={PROFILE_LINK_CSS_CLASSES}
-        titleCssClasses={PROFILE_TITLE_CSS_CLASSES}
+        linkCssClasses={menuStyles.profile_link}
+        titleCssClasses={menuStyles.menu_title}
       />
     </div>
   );
