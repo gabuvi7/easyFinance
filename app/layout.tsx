@@ -1,12 +1,19 @@
-import { ChildrenProps } from '../utils/interfaces/childrenPropsInterface';
-import CustomThemeProvider from './themeProvider';
+import Menu from '../components/Menu/Menu';
+import { ChildrenProps } from '../utils/interfaces/children.interface';
+import StyledComponentsRegistry from './lib/registry';
+import './tailwind-global.scss';
 
 export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
       <head />
       <body>
-        <CustomThemeProvider>{children}</CustomThemeProvider>
+        <StyledComponentsRegistry>
+          <div className="flex h-100">
+            <Menu />
+            {children}
+          </div>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

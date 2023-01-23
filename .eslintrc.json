@@ -31,6 +31,8 @@
     "semi": 1,
     "@typescript-eslint/semi": "error",
     "linebreak-style": 0,
-    "@next/next/no-html-link-for-pages": ["error", "/app"]
+    "@next/next/no-html-link-for-pages": ["error", "/app"],
+    "react/jsx-no-useless-fragment": "off",
+    "import/prefer-default-export": "off"
   }
 }
