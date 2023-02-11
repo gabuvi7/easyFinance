@@ -1,10 +1,13 @@
 import { ChildrenProps } from '../utils';
+import AntdProvider from './AntdProvider';
 import { ThemeProvider } from './ThemeContext';
 
 function Providers({ children }: ChildrenProps) {
   return (
     <>
-      <ThemeProvider>{children}</ThemeProvider>
+      <AntdProvider>
+        <ThemeProvider>{children}</ThemeProvider>
+      </AntdProvider>
     </>
   );
 }

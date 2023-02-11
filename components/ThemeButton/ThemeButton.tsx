@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from 'antd';
 import { useContext } from 'react';
 import { ThemeContext } from '../../context';
 
@@ -11,9 +12,9 @@ function ThemeButton() {
   }
 
   return (
-    <button type="button" onClick={() => hanldeTheme()}>
+    <Button type="primary" onClick={() => hanldeTheme()}>
       Change to {nextTheme}
-    </button>
+    </Button>
   );
 }
 export default ThemeButton;

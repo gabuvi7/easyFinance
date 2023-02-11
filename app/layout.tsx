@@ -1,4 +1,6 @@
-import Menu from '../components/Menu/Menu';
+import { ContentAppLayout, GeneralLayout } from '../components/Layouts';
+
+import Sidebar from '../components/Menu/Sidebar';
 import { Providers } from '../context';
 import { ChildrenProps } from '../utils/interfaces/children.interface';
 
@@ -12,10 +14,10 @@ export default function RootLayout({ children }: ChildrenProps) {
       <body>
         <StyledComponentsRegistry>
           <Providers>
-            <div className="flex h-100">
-              <Menu />
-              {children}
-            </div>
+            <GeneralLayout>
+              <Sidebar />
+              <ContentAppLayout>{children}</ContentAppLayout>
+            </GeneralLayout>
           </Providers>
         </StyledComponentsRegistry>
       </body>
