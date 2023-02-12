@@ -26,9 +26,7 @@ function ContentAppLayout({ children }: ChildrenProps) {
       >
         {children}
       </Content>
-      <Footer style={{ textAlign: 'center', background: colorBgContainer }}>
-        Ant Design ©2023 Created by Ant UED
-      </Footer>
+      <Footer style={{ textAlign: 'center', background: colorBgContainer }}>Gabuvi7 ©2023</Footer>
     </Layout>
   );
 }
