@@ -1,17 +1,19 @@
-import Image from 'next/image';
+interface IGetPrice {
+  from: string;
+  to: string;
+}
 
-async function getData() {
-  const response = await fetch('https://rickandmortyapi.com/api/character/2');
+async function getData({ from, to }: IGetPrice) {
+  const response = await fetch(
+    `https://api.exchange.cryptomkt.com/api/3/public/price/rate?from=${from}&to=${to}`
+  );
   return response.json();
 }
 
 async function Dashboard() {
-  const data = await getData();
-  return (
-    <div>
-      <Image width={100} height={100} src={data.image} alt="morty" />
-    </div>
-  );
+  const data = await getData({ from: 'USDC', to: 'ARS' });
+
+  return <div>1 USDC = {Number.parseInt(data.USDC.price, 10)}</div>;
 }
 
 export default Dashboard;

@@ -1,45 +1,41 @@
 'use client';
 
 import React, { useContext, useState } from 'react';
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
+
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import Image from 'next/image';
-import ThemeButton from '../ThemeButton/ThemeButton';
+import { HiChartPie } from 'react-icons/hi';
+import { IoPersonCircleOutline, IoWallet } from 'react-icons/io5';
 import { ThemeContext } from '../../context';
 import logo from '../../public/easyFinance-logo.svg';
 import darkLogo from '../../public/easyFinance-dark-logo.svg';
+import { ICON_SIZE } from '../../utils';
 
 const { Sider } = Layout;
-
-const items: MenuProps['items'] = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  AppstoreOutlined,
-  TeamOutlined,
-  ShopOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
 
 function Sidebar() {
   const { theme } = useContext(ThemeContext);
   const [collapsed, setCollapsed] = useState(false);
+
+  const Routes: MenuProps['items'] = [
+    {
+      key: '/dashboard',
+      label: <Link href="/dashboard"> Dashboard</Link>,
+      icon: <HiChartPie size={ICON_SIZE} />,
+    },
+    {
+      key: '/billings',
+      label: <Link href="/billings"> Billings</Link>,
+      icon: <IoWallet size={ICON_SIZE} />,
+    },
+    {
+      key: '/account',
+      label: <Link href="/account"> Account</Link>,
+      icon: <IoPersonCircleOutline size={ICON_SIZE} />,
+    },
+  ];
 
   return (
     <Sider
@@ -48,11 +44,15 @@ function Sidebar() {
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
     >
-      <ThemeButton />
-      <Link className="flex items-center w-full px-3 mt-3" href="/">
-        <Image src={theme === 'dark' ? darkLogo : logo} alt="EasyFinance logo" priority />
+      <Link href="/">
+        <Image
+          style={{ display: 'flex' }}
+          src={theme === 'dark' ? darkLogo : logo}
+          alt="EasyFinance logo"
+          priority
+        />
       </Link>
-      <Menu theme={theme} mode="inline" defaultSelectedKeys={['4']} items={items} />
+      <Menu theme={theme} mode="inline" defaultSelectedKeys={['1']} items={Routes} />
     </Sider>
   );
 }

@@ -5,7 +5,7 @@ import { Providers } from '../context';
 import { ChildrenProps } from '../utils/interfaces/children.interface';
 
 import StyledComponentsRegistry from './lib/registry';
-import './tailwind-global.scss';
+import '../styles/globals.scss';
 
 export default function RootLayout({ children }: ChildrenProps) {
   return (

@@ -2,6 +2,7 @@
 
 import { Layout, theme } from 'antd';
 import { ChildrenProps } from '../../utils';
+import ThemeButton from '../ThemeButton/ThemeButton';
 
 const { Header, Content, Footer } = Layout;
 
@@ -12,7 +13,9 @@ function ContentAppLayout({ children }: ChildrenProps) {
 
   return (
     <Layout className="site-layout">
-      <Header style={{ padding: 0, background: colorBgContainer }} />
+      <Header style={{ padding: 0, background: colorBgContainer }}>
+        <ThemeButton />
+      </Header>
       <Content
         style={{
           margin: '24px 16px',
@@ -23,7 +26,9 @@ function ContentAppLayout({ children }: ChildrenProps) {
       >
         {children}
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+      <Footer style={{ textAlign: 'center', background: colorBgContainer }}>
+        Ant Design ©2023 Created by Ant UED
+      </Footer>
     </Layout>
   );
 }
