@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
@@ -11,6 +11,7 @@ import { IoPersonCircleOutline, IoWallet } from 'react-icons/io5';
 import { ThemeContext } from '../../context';
 import logo from '../../public/easyFinance-logo.svg';
 import darkLogo from '../../public/easyFinance-dark-logo.svg';
+import wallet from '../../public/wallet-logo.svg';
 import { ICON_SIZE } from '../../utils';
 
 const { Sider } = Layout;
@@ -37,6 +38,14 @@ function Sidebar() {
     },
   ];
 
+  const HandleLogo = useCallback(() => {
+    let logoToUse = darkLogo;
+    if (collapsed)
+      return <Image style={{ display: 'flex' }} src={wallet} alt="EasyFinance logo" priority />;
+    if (theme === 'light') logoToUse = logo;
+    return <Image style={{ display: 'flex' }} src={logoToUse} alt="EasyFinance logo" priority />;
+  }, [theme, collapsed]);
+
   return (
     <Sider
       theme={theme}
@@ -45,12 +54,7 @@ function Sidebar() {
       onCollapse={(value) => setCollapsed(value)}
     >
       <Link href="/">
-        <Image
-          style={{ display: 'flex' }}
-          src={theme === 'dark' ? darkLogo : logo}
-          alt="EasyFinance logo"
-          priority
-        />
+        <HandleLogo />
       </Link>
       <Menu theme={theme} mode="inline" defaultSelectedKeys={['1']} items={Routes} />
     </Sider>

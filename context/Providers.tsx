@@ -5,9 +5,9 @@ import { ThemeProvider } from './ThemeContext';
 function Providers({ children }: ChildrenProps) {
   return (
     <>
-      <AntdProvider>
-        <ThemeProvider>{children}</ThemeProvider>
-      </AntdProvider>
+      <ThemeProvider>
+        <AntdProvider>{children}</AntdProvider>
+      </ThemeProvider>
     </>
   );
 }

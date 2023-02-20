@@ -5,7 +5,12 @@ interface IGetPrice {
 
 async function getData({ from, to }: IGetPrice) {
   const response = await fetch(
-    `https://api.exchange.cryptomkt.com/api/3/public/price/rate?from=${from}&to=${to}`
+    `https://api.exchange.cryptomkt.com/api/3/public/price/rate?from=${from}&to=${to}`,
+    {
+      next: {
+        revalidate: 5,
+      },
+    }
   );
   return response.json();
 }

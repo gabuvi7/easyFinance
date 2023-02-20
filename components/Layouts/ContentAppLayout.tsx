@@ -13,7 +13,14 @@ function ContentAppLayout({ children }: ChildrenProps) {
 
   return (
     <Layout className="site-layout">
-      <Header style={{ padding: 0, background: colorBgContainer }}>
+      <Header
+        style={{
+          padding: 16,
+          display: 'flex',
+          justifyContent: 'end',
+          background: colorBgContainer,
+        }}
+      >
         <ThemeButton />
       </Header>
       <Content
