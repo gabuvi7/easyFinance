@@ -98,3 +98,22 @@ a {
     color-scheme: dark;
   }
 }
+
+.ant-layout-sider-light {
+  background-color: #f6ffed !important;
+  & > .ant-layout-sider-trigger {
+    background-color: #f6ffed !important;
+  }
+}
+
+.ant-menu-light.ant-menu-root.ant-menu-inline {
+  border-inline-end: none !important;
+}
+
+.ant-menu-light > .ant-menu-item-selected > svg {
+  color: #4fd18b !important;
+}
+
+.ant-menu-dark > .ant-menu-item-selected > svg {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
