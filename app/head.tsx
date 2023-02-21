@@ -7,7 +7,8 @@ export default function Head() {
         content="EasyFinance allows you a good perspective about your billings and personal finance"
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="icon" href="/easyfinance-logo.svg" />
+      <meta name="theme-color" content="#000000" />
+      <link rel="icon" href="/wallet-logo.svg" />
     </>
   );
 }
