@@ -1,6 +1,6 @@
-import Skeleton from '../components/Skeleton/Skeleton';
+import { StyledLoading } from '../components';
 
 function Loading() {
-  return <Skeleton active />;
+  return <StyledLoading />;
 }
 export default Loading;

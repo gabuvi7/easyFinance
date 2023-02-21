@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { HiChartPie, HiHome } from 'react-icons/hi';
 import { IoPersonCircleOutline, IoWallet } from 'react-icons/io5';
+import { usePathname } from 'next/navigation';
 import { ThemeContext } from '../../context';
 import logo from '../../public/easyFinance-logo.svg';
 import darkLogo from '../../public/easyFinance-dark-logo.svg';
@@ -22,6 +23,7 @@ function Sidebar() {
     token: { colorTextQuaternary },
   } = antTheme.useToken();
   const [collapsed, setCollapsed] = useState(false);
+  const pathname = usePathname();
 
   const Routes: MenuProps['items'] = [
     {
@@ -87,7 +89,13 @@ function Sidebar() {
       <Link href="/">
         <HandleLogo />
       </Link>
-      <Menu theme={theme} mode="inline" defaultSelectedKeys={['1']} items={Routes} />
+      <Menu
+        theme={theme}
+        mode="inline"
+        defaultSelectedKeys={['1']}
+        items={Routes}
+        selectedKeys={[pathname || '/']}
+      />
     </Sider>
   );
 }
