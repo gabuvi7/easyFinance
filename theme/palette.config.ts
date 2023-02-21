@@ -148,10 +148,10 @@ export const fillColours = {
 
 export const backgroundColours = {
   light: {
-    colorBgContainer: '#ffffff',
+    colorBgContainer: 'rgb(240 240 255)',
     colorBgElevated: '#ffffff',
-    colorBgLayout: '#f5f5f5',
-    colorBgSpotlight: 'rgba(0, 0, 0, 0.85)',
+    colorBgLayout: '#f0f0f7',
+    colorBgSpotlight: colours.light.colorPrimary,
     colorBgMask: 'rgba(0, 0, 0, 0.45)',
   },
   dark: {

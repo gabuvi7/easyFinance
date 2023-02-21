@@ -1,4 +1,6 @@
+import Skeleton from '../components/Skeleton/Skeleton';
+
 function Loading() {
-  return <div>loading</div>;
+  return <Skeleton active />;
 }
 export default Loading;

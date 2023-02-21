@@ -6,7 +6,7 @@ import type { MenuProps } from 'antd';
 import { Layout, Menu, theme as antTheme } from 'antd';
 import Link from 'next/link';
 import Image from 'next/image';
-import { HiChartPie } from 'react-icons/hi';
+import { HiChartPie, HiHome } from 'react-icons/hi';
 import { IoPersonCircleOutline, IoWallet } from 'react-icons/io5';
 import { ThemeContext } from '../../context';
 import logo from '../../public/easyFinance-logo.svg';
@@ -24,6 +24,16 @@ function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
 
   const Routes: MenuProps['items'] = [
+    {
+      key: '/',
+      label: (
+        <Link color={colorTextQuaternary} href="/">
+          {' '}
+          Home
+        </Link>
+      ),
+      icon: <HiHome color={colorTextQuaternary} size={ICON_SIZE} />,
+    },
     {
       key: '/dashboard',
       label: (
@@ -66,10 +76,13 @@ function Sidebar() {
 
   return (
     <Sider
+      breakpoint="md"
+      collapsedWidth="50"
       theme={theme}
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
+      zeroWidthTriggerStyle={{ background: 'red' }}
     >
       <Link href="/">
         <HandleLogo />
