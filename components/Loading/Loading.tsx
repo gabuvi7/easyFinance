@@ -1,5 +1,3 @@
-'use client';
-
 import loadingStyles from './Loading.module.css';
 
 function Loading() {
