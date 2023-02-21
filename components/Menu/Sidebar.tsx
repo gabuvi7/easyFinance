@@ -84,7 +84,6 @@ function Sidebar() {
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
-      zeroWidthTriggerStyle={{ background: 'red' }}
     >
       <Link href="/">
         <HandleLogo />
