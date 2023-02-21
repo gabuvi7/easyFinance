@@ -9,8 +9,9 @@ import {
   colours,
   fillColours,
   textColours,
-} from './palette.config';
+} from '../theme/palette.config';
 import { ThemeContext } from './ThemeContext';
+import { menuCustomTheme } from '../theme/components.config';
 
 function AntdProvider({ children }: ChildrenProps) {
   const { theme } = useContext(ThemeContext);
@@ -19,7 +20,7 @@ function AntdProvider({ children }: ChildrenProps) {
   const borderColoursTheme = borderColours[theme];
   const fillColoursTheme = fillColours[theme];
   const backgroundColoursTheme = backgroundColours[theme];
-
+  const menuTheme = menuCustomTheme[theme];
   return (
     <ConfigProvider
       theme={{
@@ -32,7 +33,20 @@ function AntdProvider({ children }: ChildrenProps) {
         },
         components: {
           Menu: {
-            colorBgContainer: backgroundColoursTheme.colorBgContainer,
+            ...coloursTheme,
+            ...textColoursTheme,
+            ...borderColoursTheme,
+            ...fillColoursTheme,
+            ...backgroundColoursTheme,
+            ...menuTheme,
+          },
+          Layout: {
+            ...coloursTheme,
+            ...textColoursTheme,
+            ...borderColoursTheme,
+            ...fillColoursTheme,
+            ...backgroundColoursTheme,
+            ...menuTheme,
           },
         },
       }}

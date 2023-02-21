@@ -1,0 +1,43 @@
+/* eslint-disable max-len */
+export const menuCustomTheme = {
+  light: {
+    boxShadowSecondary:
+      '0 6px 16px 0 rgba(0, 0, 0, 0.08),      0 3px 6px -4px rgba(0, 0, 0, 0.12),      0 9px 28px 8px rgba(0, 0, 0, 0.05)    ',
+    colorBgContainer: '#ffffff',
+    colorBgElevated: '#ffffff',
+    colorBgTextHover: 'rgba(0, 0, 0, 0.06)',
+    colorError: '#ff4d4f',
+    colorErrorBg: '#fff2f0',
+    colorErrorHover: '#ff7875',
+    colorFillAlter: 'rgba(0, 0, 0, 0.02)',
+    colorFillContent: 'rgba(0, 0, 0, 0.06)',
+    colorPrimary: '#4fd18b',
+    colorPrimaryBorder: '#d5f7e1',
+    colorSplit: 'rgba(5, 5, 5, 0.06)',
+    colorText: 'rgba(0, 0, 0, 0.88)',
+    colorTextDescription: 'rgba(0, 0, 0, 0.45)',
+    colorTextDisabled: 'rgba(0, 0, 0, 0.25)',
+    colorTextLightSolid: '#fff',
+    controlItemBgActive: '#f0fff4',
+  },
+  dark: {
+    boxShadowSecondary:
+      '0 6px 16px 0 rgba(0, 0, 0, 0.08),      0 3px 6px -4px rgba(0, 0, 0, 0.12),      0 9px 28px 8px rgba(0, 0, 0, 0.05)    ',
+    colorBgContainer: '#141414',
+    colorBgElevated: '#1f1f1f',
+    colorBgTextHover: 'rgba(255, 255, 255, 0.12)',
+    colorError: '#dc4446',
+    colorErrorBg: '#2c1618',
+    colorErrorHover: '#e86e6b',
+    colorFillAlter: 'rgba(255, 255, 255, 0.04)',
+    colorFillContent: 'rgba(255, 255, 255, 0.12)',
+    colorPrimary: '#46b579',
+    colorPrimaryBorder: '#264d38',
+    colorSplit: 'rgba(253, 253, 253, 0.12)',
+    colorText: 'rgba(255, 255, 255, 0.85)',
+    colorTextDescription: 'rgba(255, 255, 255, 0.45)',
+    colorTextDisabled: 'rgba(255, 255, 255, 0.25)',
+    colorTextLightSolid: '#fff',
+    controlItemBgActive: '#17251e',
+  },
+};

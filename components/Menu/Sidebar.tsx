@@ -3,7 +3,7 @@
 import React, { useCallback, useContext, useState } from 'react';
 
 import type { MenuProps } from 'antd';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, theme as antTheme } from 'antd';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HiChartPie } from 'react-icons/hi';
@@ -18,23 +18,41 @@ const { Sider } = Layout;
 
 function Sidebar() {
   const { theme } = useContext(ThemeContext);
+  const {
+    token: { colorTextQuaternary },
+  } = antTheme.useToken();
   const [collapsed, setCollapsed] = useState(false);
 
   const Routes: MenuProps['items'] = [
     {
       key: '/dashboard',
-      label: <Link href="/dashboard"> Dashboard</Link>,
-      icon: <HiChartPie size={ICON_SIZE} />,
+      label: (
+        <Link color={colorTextQuaternary} href="/dashboard">
+          {' '}
+          Dashboard
+        </Link>
+      ),
+      icon: <HiChartPie color={colorTextQuaternary} size={ICON_SIZE} />,
     },
     {
       key: '/billings',
-      label: <Link href="/billings"> Billings</Link>,
-      icon: <IoWallet size={ICON_SIZE} />,
+      label: (
+        <Link color={colorTextQuaternary} href="/billings">
+          {' '}
+          Billings
+        </Link>
+      ),
+      icon: <IoWallet color={colorTextQuaternary} size={ICON_SIZE} />,
     },
     {
       key: '/account',
-      label: <Link href="/account"> Account</Link>,
-      icon: <IoPersonCircleOutline size={ICON_SIZE} />,
+      label: (
+        <Link color={colorTextQuaternary} href="/account">
+          {' '}
+          Account
+        </Link>
+      ),
+      icon: <IoPersonCircleOutline color={colorTextQuaternary} size={ICON_SIZE} />,
     },
   ];
 

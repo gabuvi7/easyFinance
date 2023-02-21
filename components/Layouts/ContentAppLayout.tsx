@@ -8,11 +8,11 @@ const { Header, Content, Footer } = Layout;
 
 function ContentAppLayout({ children }: ChildrenProps) {
   const {
-    token: { colorBgContainer },
+    token: { colorBgContainer, colorText },
   } = theme.useToken();
 
   return (
-    <Layout className="site-layout">
+    <Layout style={{ background: colorBgContainer }} className="site-layout">
       <Header
         style={{
           padding: 16,
@@ -29,6 +29,7 @@ function ContentAppLayout({ children }: ChildrenProps) {
           padding: 24,
           minHeight: 280,
           background: colorBgContainer,
+          color: colorText,
         }}
       >
         {children}
