@@ -8,7 +8,7 @@ export default function Head() {
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="theme-color" content="#000000" />
-      <link rel="icon" href="/wallet-logo.svg" />
+      <link rel="icon" href="/eF-wallet-head-logo.png" />
     </>
   );
 }

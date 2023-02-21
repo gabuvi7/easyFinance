@@ -3,8 +3,7 @@ export default function Head() {
     <>
       <title>Dashboard</title>
       <meta name="Dashboard" content="EasyFinance dashboard" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="icon" href="/easyfinance-logo.svg" />
+      <link rel="icon" href="/eF-wallet-head-logo.png" />
     </>
   );
 }
