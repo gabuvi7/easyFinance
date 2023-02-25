@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { ContentAppLayout, GeneralLayout } from '../components/Layouts';
 
 import Sidebar from '../components/Menu/Sidebar';
@@ -6,6 +7,14 @@ import { ChildrenProps } from '../utils/interfaces/children.interface';
 
 import StyledComponentsRegistry from './lib/registry';
 import '../styles/globals.scss';
+
+export const metadata: Metadata = {
+  title: 'EasyFinance',
+  description: 'EasyFinance allows you a good perspective about your billings and personal finance',
+  viewport: 'width=device-width, initial-scale=1',
+  themeColor: '#000000',
+  icons: '/eF-wallet-head-logo.png',
+};
 
 export default function RootLayout({ children }: ChildrenProps) {
   return (

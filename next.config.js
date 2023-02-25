@@ -6,6 +6,7 @@ const nextConfig = {
   skipMiddlewareUrlNormalize: true,
   experimental: {
     appDir: true,
+    mdxRs: true,
   },
   images: {
     remotePatterns: [
@@ -16,4 +17,5 @@ const nextConfig = {
   },
 };
 
+const withMDX = require('@next/mdx');
 module.exports = nextConfig;
