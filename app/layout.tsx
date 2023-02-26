@@ -1,12 +1,11 @@
 import { Metadata } from 'next';
-import { ContentAppLayout, GeneralLayout } from '../components/Layouts';
 
-import Sidebar from '../components/Menu/Sidebar';
 import { Providers } from '../context';
 import { ChildrenProps } from '../utils/interfaces/children.interface';
 
 import StyledComponentsRegistry from './lib/registry';
 import '../styles/globals.scss';
+import { ContentAppLayout, GeneralLayout, Sidebar } from '../components';
 
 export const metadata: Metadata = {
   title: 'EasyFinance',
