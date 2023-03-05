@@ -1,23 +1,31 @@
 'use client';
 
-import { Button, Card, Space } from 'antd';
+import { theme as antTheme } from 'antd';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
+import { FcGoogle } from 'react-icons/fc';
 import logo from '../../public/wallet-logo.svg';
-import loginStyles from './login.module.css';
+import { GoogleButton, LoginCard, LoginDivider, LoginSpace } from './LoginStyledComponents';
 
 function LoginStyled() {
+  const {
+    token: { colorInfoBorder, colorBgElevated },
+  } = antTheme.useToken();
   return (
-    <Card size="small" className={loginStyles.loginContainer}>
-      <Space className={loginStyles.loginLogoSpace}>
-        <Image src={logo} width={300} height={300} alt="logo" />
-      </Space>
-      <Space className={loginStyles.loginButtonSpace}>
-        <Button type="primary" onClick={() => signIn('google')}>
-          Sign In to use EasyFinance
-        </Button>
-      </Space>
-    </Card>
+    <LoginCard size="small" border={colorInfoBorder} bg_color={colorBgElevated}>
+      <LoginSpace>
+        <Image src={logo} width={300} height={300} alt="logo" priority />
+      </LoginSpace>
+      <LoginDivider border={colorInfoBorder} type="horizontal">
+        OR
+      </LoginDivider>
+      <LoginSpace $google_btn>
+        <GoogleButton onClick={() => signIn('google')}>
+          <FcGoogle size="2rem" />
+          Continue with Google
+        </GoogleButton>
+      </LoginSpace>
+    </LoginCard>
   );
 }
 export default LoginStyled;

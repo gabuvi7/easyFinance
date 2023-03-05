@@ -8,21 +8,10 @@ import { StyledLoading } from '../components';
 import { ChildrenProps } from '../utils';
 
 function SessionProvider({ children, session }: ChildrenProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, setUser] = useState<any>({} as any);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const unsubscribe = () => {
-      if (session) {
-        setUser(session);
-      } else {
-        setUser({} as any);
-      }
-      setLoading(false);
-    };
-
-    return () => unsubscribe();
-  }, [, session]);
+    return () => setLoading(false);
+  }, []);
 
   return (
     <Provider session={session}>

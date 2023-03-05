@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { ISignUpArgs } from '../../utils/interfaces/firebase.interface';
-import firebaseAppConfig from '../firebase.config';
+import { firebaseAppConfig } from '../firebase.config';
 
 const auth = getAuth(firebaseAppConfig);
 
