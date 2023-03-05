@@ -1,0 +1,19 @@
+.loginContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
+
+.loginContainer > div {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.loginLogoSpace,
+.loginButtonSpace {
+  justify-content: center;
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+}

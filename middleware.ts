@@ -1,8 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('easy-finance', 'Gabuvi7');
+export async function middleware(req: NextRequest) {
+  const requestHeaders = new Headers(req.headers);
+  const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET! });
+  const url = req.nextUrl.clone();
+  const requestedPage = req.nextUrl.pathname;
+
+  if (!session) {
+    url.pathname = '/login';
+    url.search = `p=${requestedPage}`;
+    return NextResponse.redirect(url);
+  }
 
   const response = NextResponse.next({
     request: {
@@ -10,19 +20,9 @@ export function middleware(request: NextRequest) {
     },
   });
 
-  if (request.nextUrl.pathname.startsWith('/dashboard')) {
-    const user = {
-      name: 'Gabriel Uviedo',
-      authenticated: false,
-    };
-    if (user.authenticated === true) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
-  }
-
   return response;
 }
 
 export const config = {
-  matcher: ['/:path*', '/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/', '/dashboard', '/account', '/billings'],
 };

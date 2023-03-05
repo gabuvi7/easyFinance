@@ -1,4 +1,4 @@
-import { ChildrenProps } from '../../../utils';
+import { ChildrenProps } from '../../utils';
 
 function LoginLayout({ children }: ChildrenProps) {
   return <div>{children}</div>;

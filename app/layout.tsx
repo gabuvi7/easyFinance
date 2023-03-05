@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { getServerSession } from 'next-auth/next';
 
 import { Providers } from '../context';
 import { ChildrenProps } from '../utils/interfaces/children.interface';
@@ -6,6 +7,8 @@ import { ChildrenProps } from '../utils/interfaces/children.interface';
 import StyledComponentsRegistry from './lib/registry';
 import '../styles/globals.scss';
 import { ContentAppLayout, GeneralLayout, Sidebar } from '../components';
+
+import { authOptions } from '../utils/const/auth.providers';
 
 export const metadata: Metadata = {
   title: 'EasyFinance',
@@ -15,16 +18,26 @@ export const metadata: Metadata = {
   icons: '/eF-wallet-head-logo.png',
 };
 
-export default function RootLayout({ children }: ChildrenProps) {
+export default async function RootLayout({ children }: ChildrenProps) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <head />
       <body>
         <StyledComponentsRegistry>
-          <Providers>
+          <Providers session={session}>
             <GeneralLayout>
-              <Sidebar />
-              <ContentAppLayout>{children}</ContentAppLayout>
+              {!session ? (
+                <ContentAppLayout>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>{children}</div>
+                </ContentAppLayout>
+              ) : (
+                <>
+                  <Sidebar />
+                  <ContentAppLayout>{children}</ContentAppLayout>
+                </>
+              )}
             </GeneralLayout>
           </Providers>
         </StyledComponentsRegistry>
