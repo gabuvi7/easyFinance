@@ -5,9 +5,9 @@
 import { SessionProvider as Provider } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { StyledLoading } from '../components';
-import { ChildrenProps } from '../utils';
+import { SessionProps } from '../utils';
 
-function SessionProvider({ children, session }: ChildrenProps) {
+function SessionProvider({ children, session }: SessionProps) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     return () => setLoading(false);
