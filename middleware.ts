@@ -6,13 +6,14 @@ export async function middleware(req: NextRequest) {
   const requestHeaders = new Headers(req.headers);
   const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET! });
   const url = req.nextUrl.clone();
-  const requestedPage = req.nextUrl.pathname;
+  // const requestedPage = req.nextUrl.pathname;
 
   if (!session) {
     url.pathname = '/login';
-    url.search = `p=${requestedPage}`;
     return NextResponse.redirect(url);
   }
+
+  if (session && url.pathname === '/login') return NextResponse.redirect('/');
 
   const response = NextResponse.next({
     request: {
