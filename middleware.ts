@@ -10,7 +10,7 @@ export async function middleware(req: NextRequest) {
 
   if (!session) {
     url.pathname = '/login';
-    // return NextResponse.redirect(url);
+    return NextResponse.redirect(url);
   }
 
   if (session && url.pathname === '/login') return NextResponse.redirect('/');
