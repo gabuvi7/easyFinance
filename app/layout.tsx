@@ -26,16 +26,8 @@ export default async function RootLayout({ children }: ChildrenProps) {
       <body>
         <Providers session={session}>
           <GeneralLayout>
-            {!session ? (
-              <ContentAppLayout>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>{children}</div>
-              </ContentAppLayout>
-            ) : (
-              <>
-                <Sidebar />
-                <ContentAppLayout>{children}</ContentAppLayout>
-              </>
-            )}
+            <Sidebar />
+            <ContentAppLayout>{children}</ContentAppLayout>
           </GeneralLayout>
         </Providers>
       </body>

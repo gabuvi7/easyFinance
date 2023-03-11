@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { StyledLoading } from '..';
 import { ChildrenProps } from '../../utils';
 
 function ClientOnly({ children, ...delegated }: ChildrenProps) {
@@ -9,7 +10,11 @@ function ClientOnly({ children, ...delegated }: ChildrenProps) {
     setHasMounted(true);
   }, []);
   if (!hasMounted) {
-    return null;
+    return (
+      <div style={{ alignItems: 'center', display: 'flex', height: '100vh' }}>
+        <StyledLoading />
+      </div>
+    );
   }
   return <div {...delegated}>{children}</div>;
 }
