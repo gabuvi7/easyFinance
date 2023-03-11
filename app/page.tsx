@@ -1,4 +1,4 @@
-function App() {
+async function App() {
   return 'App';
 }
 export default App;

@@ -1,0 +1,19 @@
+.user_btn {
+  height: fit-content;
+  align-items: center;
+  display: flex;
+  max-width: 250px;
+}
+
+.userImg {
+  border-radius: 20px;
+  margin-right: 0.5rem;
+}
+
+@media screen and (max-width: 450px) {
+  .user_btn {
+    display: flex;
+    flex: 0 0 100%;
+    flex-wrap: wrap;
+  }
+}

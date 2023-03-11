@@ -13,6 +13,9 @@ const nextConfig = {
       {
         hostname: 'api.exchange.cryptomkt.com',
       },
+      {
+        hostname: 'lh3.googleusercontent.com',
+      },
     ],
   },
 };

@@ -1,9 +1,7 @@
 'use client';
 
 import React, { useCallback, useContext, useState } from 'react';
-
-import type { MenuProps } from 'antd';
-import { Layout, Menu, theme as antTheme } from 'antd';
+import { MenuProps, Layout, Menu, theme as antTheme } from 'antd';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HiChartPie, HiHome } from 'react-icons/hi';

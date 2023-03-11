@@ -1,0 +1,35 @@
+.headerLayout {
+  height: fit-content;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.headerSpace {
+  align-items: center;
+}
+
+.headerSpace > div {
+  height: 40px;
+  align-items: center;
+  display: flex;
+}
+
+.contentLayout {
+  margin: 24px 16px;
+  padding: 24px;
+  minheight: 280px;
+}
+
+@media screen and (max-width: 450px) {
+  .headerSpace > div {
+    padding: 1rem 0 1rem 0;
+  }
+
+  .contentLayout {
+    margin: 1rem 16px;
+    padding: 0px;
+    minheight: 280px;
+  }
+}

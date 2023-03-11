@@ -117,3 +117,19 @@ a {
 .ant-menu-dark > .ant-menu-item-selected > svg {
   color: rgba(255, 255, 255, 0.88) !important;
 }
+
+.loginDivider_light::before {
+  border-block-start: 1px solid #d0c9ff !important;
+}
+
+.loginDivider_light::after {
+  border-block-start: 1px solid #d0c9ff !important;
+}
+
+.loginDivider_dark::before {
+  border-block-start: 1px solid #252455 !important;
+}
+
+.loginDivider_dark::after {
+  border-block-start: 1px solid #252455 !important;
+}

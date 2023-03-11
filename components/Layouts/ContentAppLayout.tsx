@@ -1,8 +1,10 @@
 'use client';
 
-import { Layout, theme } from 'antd';
+import { Layout, Space, theme } from 'antd';
 import { ChildrenProps } from '../../utils';
 import ThemeButton from '../ThemeButton/ThemeButton';
+import layoutStyles from './contentApp.module.css';
+import DropdownUser from '../DropdownUser/DropdownUser';
 
 const { Header, Content, Footer } = Layout;
 
@@ -14,20 +16,21 @@ function ContentAppLayout({ children }: ChildrenProps) {
   return (
     <Layout style={{ background: colorBgContainer }} className="site-layout">
       <Header
+        className={layoutStyles.headerLayout}
         style={{
-          padding: 16,
-          display: 'flex',
-          justifyContent: 'end',
           background: colorBgContainer,
         }}
       >
-        <ThemeButton />
+        <Space className={layoutStyles.headerSpace}>
+          <DropdownUser />
+        </Space>
+        <Space>
+          <ThemeButton />
+        </Space>
       </Header>
       <Content
+        className={layoutStyles.contentLayout}
         style={{
-          margin: '24px 16px',
-          padding: 24,
-          minHeight: 280,
           background: colorBgContainer,
           color: colorText,
         }}
