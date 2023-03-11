@@ -4,7 +4,6 @@ import { getServerSession } from 'next-auth/next';
 import { Providers } from '../context';
 import { ChildrenProps } from '../utils/interfaces/children.interface';
 
-import StyledComponentsRegistry from './lib/registry';
 import '../styles/globals.scss';
 import { ContentAppLayout, GeneralLayout, Sidebar } from '../components';
 
@@ -25,22 +24,20 @@ export default async function RootLayout({ children }: ChildrenProps) {
     <html lang="en">
       <head />
       <body>
-        <StyledComponentsRegistry>
-          <Providers session={session}>
-            <GeneralLayout>
-              {!session ? (
-                <ContentAppLayout>
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>{children}</div>
-                </ContentAppLayout>
-              ) : (
-                <>
-                  <Sidebar />
-                  <ContentAppLayout>{children}</ContentAppLayout>
-                </>
-              )}
-            </GeneralLayout>
-          </Providers>
-        </StyledComponentsRegistry>
+        <Providers session={session}>
+          <GeneralLayout>
+            {!session ? (
+              <ContentAppLayout>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>{children}</div>
+              </ContentAppLayout>
+            ) : (
+              <>
+                <Sidebar />
+                <ContentAppLayout>{children}</ContentAppLayout>
+              </>
+            )}
+          </GeneralLayout>
+        </Providers>
       </body>
     </html>
   );
