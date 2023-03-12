@@ -1,15 +1,12 @@
-import { SessionProps } from '../utils';
+import { ChildrenProps } from '../utils';
 import AntdProvider from './AntdProvider';
-import SessionProvider from './SessionProvider';
 import { ThemeProvider } from './ThemeContext';
 
-function Providers({ children, session }: SessionProps) {
+function Providers({ children }: ChildrenProps) {
   return (
-    <SessionProvider session={session}>
-      <ThemeProvider>
-        <AntdProvider>{children}</AntdProvider>
-      </ThemeProvider>
-    </SessionProvider>
+    <ThemeProvider>
+      <AntdProvider>{children}</AntdProvider>
+    </ThemeProvider>
   );
 }
 export default Providers;

@@ -1,13 +1,10 @@
 import { Metadata } from 'next';
-import { getServerSession } from 'next-auth/next';
-
 import { Providers } from '../context';
 import { ChildrenProps } from '../utils/interfaces/children.interface';
 
 import '../styles/globals.scss';
 import { ContentAppLayout, GeneralLayout, Sidebar } from '../components';
-
-import { authOptions } from '../utils/const/auth.providers';
+import { getCurrentUser } from '../lib/session';
 
 export const metadata: Metadata = {
   title: 'EasyFinance',
@@ -18,16 +15,24 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: ChildrenProps) {
-  const session = await getServerSession(authOptions);
+  const user = await getCurrentUser();
 
   return (
     <html lang="en">
       <head />
       <body>
-        <Providers session={session}>
+        <Providers>
           <GeneralLayout>
-            <Sidebar />
-            <ContentAppLayout>{children}</ContentAppLayout>
+            {!user ? (
+              <ContentAppLayout user={user}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>{children}</div>
+              </ContentAppLayout>
+            ) : (
+              <>
+                <Sidebar />
+                <ContentAppLayout user={user}>{children}</ContentAppLayout>
+              </>
+            )}
           </GeneralLayout>
         </Providers>
       </body>

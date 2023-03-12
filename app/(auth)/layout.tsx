@@ -1,6 +1,6 @@
 import { ChildrenProps } from '../../utils';
 
-function LoginLayout({ children }: ChildrenProps) {
+function AuthLayout({ children }: ChildrenProps) {
   return <div>{children}</div>;
 }
-export default LoginLayout;
+export default AuthLayout;

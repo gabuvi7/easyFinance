@@ -1,11 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { useSession, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { Button, Dropdown, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import dropdownStyles from './dropdown.module.css';
+import { IUser } from '../../utils';
 
 const { Text } = Typography;
 
@@ -18,28 +19,22 @@ const items: MenuProps['items'] = [
   },
 ];
 
-function DropdownUser() {
-  const { data: session } = useSession();
-
+function DropdownUser({ user }: IUser) {
   return (
-    <>
-      {session && (
-        <Dropdown menu={{ items }}>
-          <Button onClick={(e) => e.preventDefault()} className={dropdownStyles.user_btn}>
-            <Image
-              className={dropdownStyles.userImg}
-              src={session.user?.image!}
-              width={40}
-              height={40}
-              alt="User image"
-              priority
-            />
-            <Text>Hola {session.user?.name}</Text>
-            <DownOutlined />
-          </Button>
-        </Dropdown>
-      )}
-    </>
+    <Dropdown menu={{ items }}>
+      <Button onClick={(e) => e.preventDefault()} className={dropdownStyles.user_btn}>
+        <Image
+          className={dropdownStyles.userImg}
+          src={user?.image!}
+          width={40}
+          height={40}
+          alt="User image"
+          priority
+        />
+        <Text>Hola {user?.name}</Text>
+        <DownOutlined />
+      </Button>
+    </Dropdown>
   );
 }
 export default DropdownUser;

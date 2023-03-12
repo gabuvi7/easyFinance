@@ -1,14 +1,14 @@
 'use client';
 
 import { Layout, Space, theme } from 'antd';
-import { ChildrenProps } from '../../utils';
+import { IChildrenSession } from '../../utils';
 import ThemeButton from '../ThemeButton/ThemeButton';
 import layoutStyles from './contentApp.module.css';
 import DropdownUser from '../DropdownUser/DropdownUser';
 
 const { Header, Content, Footer } = Layout;
 
-function ContentAppLayout({ children }: ChildrenProps) {
+function ContentAppLayout({ children, user }: IChildrenSession) {
   const {
     token: { colorBgContainer, colorText },
   } = theme.useToken();
@@ -21,9 +21,11 @@ function ContentAppLayout({ children }: ChildrenProps) {
           background: colorBgContainer,
         }}
       >
-        <Space className={layoutStyles.headerSpace}>
-          <DropdownUser />
-        </Space>
+        {user && (
+          <Space className={layoutStyles.headerSpace}>
+            <DropdownUser user={user} />
+          </Space>
+        )}
         <Space>
           <ThemeButton />
         </Space>
