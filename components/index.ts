@@ -9,3 +9,4 @@ export { default as Sidebar } from './Menu/Sidebar';
 export { default as Navigator } from './Navigator/Navigator';
 export { default as Skeleton } from './Skeleton/Skeleton';
 export { default as ThemeButton } from './ThemeButton/ThemeButton';
+export { default as MyProfile } from './MyProfile/Profile';

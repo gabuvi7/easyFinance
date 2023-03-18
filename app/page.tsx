@@ -1,4 +1,10 @@
+import { MyProfile } from '../components';
+
 function App() {
-  return <div>App</div>;
+  return (
+    <>
+      <MyProfile />
+    </>
+  );
 }
 export default App;
