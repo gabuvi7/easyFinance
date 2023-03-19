@@ -24,7 +24,7 @@
 
 .fullName {
   flex: 1;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   margin-bottom: 8px;
 }
@@ -32,7 +32,7 @@
 .CUIT {
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   margin-bottom: 8px;
   white-space: nowrap;
@@ -43,7 +43,7 @@
 }
 
 .label {
-  font-size: 14px;
+  font-size: 0.96rem;
   font-weight: 400;
   color: #888;
   margin-right: 8px;
@@ -56,6 +56,7 @@
 .registered {
   color: #32a852;
   font-weight: 600;
+  font-size: 1rem;
 }
 
 .copyIcon {
@@ -89,6 +90,10 @@
 .fiscalPasswordInput {
   width: 100%;
   max-width: 200px;
+}
+
+.contentFont {
+  font-size: 1rem;
 }
 
 @media (min-width: 561px) {

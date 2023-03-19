@@ -16,9 +16,9 @@ async function getData({ from, to }: IGetPrice) {
 }
 
 async function Dashboard() {
-  const data = await getData({ from: 'USDC', to: 'ARS' });
+  const data = await getData({ from: 'USDT', to: 'ARS' });
 
-  return <div>1 USDC = {Number.parseInt(data.USDC.price, 10)}</div>;
+  return <div>1 USDT = {Number.parseInt(data.USDT.price, 10)}</div>;
 }
 
 export default Dashboard;
