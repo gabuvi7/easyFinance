@@ -98,8 +98,8 @@ function MyProfile() {
         <Space className={styles.dataRow}>
           <div>
             <span className={styles.label}>Monotributo:</span>
-            <Tag color={colorInfo}>{personalData.monotributoCategory}</Tag>- $
-            {afipData.monthlyBilling}/month
+            <Tag color={colorInfo}>{personalData.monotributoCategory}</Tag>-
+            <span>${afipData.monthlyBilling}/month</span>
           </div>
           <div>
             <span className={styles.label}>IIBB:</span>

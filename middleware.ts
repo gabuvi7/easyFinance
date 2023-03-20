@@ -6,11 +6,11 @@ import { withAuth } from 'next-auth/middleware';
 export default withAuth(
   async function middleware(req: NextRequest) {
     const requestHeaders = new Headers(req.headers);
+
     const token = await getToken({ req });
     const isAuth = !!token;
     const url = req.nextUrl.clone();
-    // const requestedPage = req.nextUrl.pathname;
-
+    console.log('token: hjfgh', token);
     const isAuthPage =
       req.nextUrl.pathname.startsWith('/login') || req.nextUrl.pathname.startsWith('/register');
 
@@ -18,10 +18,13 @@ export default withAuth(
       if (isAuth) {
         return NextResponse.redirect(new URL('/', req.url));
       }
-
       return null;
     }
 
+    if (isAuth) {
+      console.log('isAuth: ', token.isNewUser);
+      if (token.isNewUser) return NextResponse.redirect(new URL('/account', req.url));
+    }
     if (!isAuth) {
       url.pathname = '/login';
       return NextResponse.redirect(url);

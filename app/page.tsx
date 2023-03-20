@@ -1,6 +1,6 @@
 import { MyProfile } from '../components';
 
-function App() {
+async function App() {
   return (
     <>
       <MyProfile />
