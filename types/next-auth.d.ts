@@ -15,4 +15,9 @@ declare module 'next-auth' {
     given_name?: string;
     family_name?: string;
   }
+  interface Session {
+    user: {
+      isNewUser?: boolean;
+    } & DefaultSession['user'];
+  }
 }

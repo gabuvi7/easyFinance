@@ -13,17 +13,8 @@ export async function getCurrentUser() {
   return session?.user;
 }
 
-export async function storeUser() {
-  const user = {
-    cuilCuit: 24388582282,
-    email: 'fregaby.16@gmail.com',
-    fiscalPassword: '',
-    healthInsurance: 'Swiss Medical',
-    iIBBStatus: 'Unificado',
-    iIBBType: 'ARBA',
-    lastname: 'Uviedo',
-    monotributoCategory: 'G',
-    name: 'Gabriel Oscar',
-  };
-  await firestoreAdmin.collection('users').add(user);
+export async function getUserData(email: string) {
+  const userRef = firestoreAdmin.collection('users').doc(email!);
+  const userDoc = await userRef.get();
+  return userDoc.data();
 }

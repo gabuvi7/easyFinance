@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // eslint-disable-next-line import/extensions
 import '../../types/next-auth.d.ts';
 import { AuthOptions } from 'next-auth';
@@ -21,9 +22,9 @@ export const authOptions: AuthOptions = {
       const { email } = user;
       const userRef = firestoreAdmin.collection('users').doc(email!);
       const userDoc = await userRef.get();
-      const newUser = { ...user };
+
       if (!userDoc.exists) {
-        newUser.isNewUser = true;
+        user.isNewUser = true;
         await userRef.set({
           cuilCuit: 0,
           email: email!,
@@ -31,23 +32,21 @@ export const authOptions: AuthOptions = {
           healthInsurance: '',
           iIBBStatus: '',
           iIBBType: '',
-          lastname: user.family_name,
+          lastname: user.family_name ?? '',
           monotributoCategory: '',
-          name: user.given_name,
+          name: user.given_name ?? user.name,
+          firstLogin: true,
         });
-
-        return true;
+      } else {
+        user.isNewUser = false;
       }
-
       return true;
     },
-    jwt({ token, user }) {
-      const newToken = { ...token };
-      if (user) {
-        newToken.isNewUser = user.isNewUser;
-      }
 
-      return newToken;
+    jwt({ token, user }) {
+      token.isNewUser = user?.isNewUser;
+
+      return token;
     },
   },
 };

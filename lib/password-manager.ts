@@ -1,5 +1,5 @@
 import * as crypto from 'crypto';
-import { firestore } from '../firebase/firebase.admin.config';
+import { firestoreAdmin } from '../firebase/firebase.admin.config';
 
 const encryptionKey = 'your-32-byte-encryption-key'; // Reemplazar con una clave de 32 bytes (256 bits) segura
 const algorithm = 'aes-256-cbc';
@@ -25,13 +25,13 @@ function decryptPassword(encryptedPassword: string): string {
 
 async function storePassword(username: string, password: string) {
   const encryptedPassword = encryptPassword(password);
-  await firestore.collection('users').doc(username).set({
+  await firestoreAdmin.collection('users').doc(username).set({
     password: encryptedPassword,
   });
 }
 
 async function getPassword(username: string): Promise<string | null> {
-  const userDoc = await firestore.collection('users').doc(username).get();
+  const userDoc = await firestoreAdmin.collection('users').doc(username).get();
   if (!userDoc.exists) {
     return null;
   }

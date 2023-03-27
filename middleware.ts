@@ -10,7 +10,6 @@ export default withAuth(
     const token = await getToken({ req });
     const isAuth = !!token;
     const url = req.nextUrl.clone();
-    console.log('token: hjfgh', token);
     const isAuthPage =
       req.nextUrl.pathname.startsWith('/login') || req.nextUrl.pathname.startsWith('/register');
 
@@ -21,10 +20,6 @@ export default withAuth(
       return null;
     }
 
-    if (isAuth) {
-      console.log('isAuth: ', token.isNewUser);
-      if (token.isNewUser) return NextResponse.redirect(new URL('/account', req.url));
-    }
     if (!isAuth) {
       url.pathname = '/login';
       return NextResponse.redirect(url);
