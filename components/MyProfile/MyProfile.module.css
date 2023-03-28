@@ -1,0 +1,140 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  gap: 16px;
+  padding: 16px;
+  flex-wrap: wrap;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 8px;
+}
+
+.dataRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.fullName {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.CUIT {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.copyButton {
+  margin-left: 8px;
+}
+
+.label {
+  font-size: 0.96rem;
+  font-weight: 400;
+  color: #888;
+  margin-right: 8px;
+}
+
+.profileDivider {
+  margin: 0;
+}
+
+.registered {
+  color: #32a852;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.copyIcon {
+  display: inline;
+}
+
+.passwordRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-top: 1em;
+}
+
+.fiscalPasswordInput {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.copyButton {
+  padding: 0;
+  color: #1890ff;
+}
+
+.passwordRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.fiscalPasswordInput {
+  width: 100%;
+  max-width: 200px;
+}
+
+.contentFont {
+  font-size: 1rem;
+}
+
+@media (min-width: 561px) {
+  .fiscalPasswordInput {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  .CUIT {
+    width: 100%;
+  }
+  .label {
+    display: block;
+  }
+  .fiscalPasswordInput {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 350px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .CUIT {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 305px) {
+  .CUIT {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .label {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 4px;
+  }
+}

@@ -1,6 +1,5 @@
-import { initializeApp, getApps } from 'firebase/app';
-import { Firestore, getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { getFirestore } from 'firebase-admin/firestore';
+import { initializeApp, getApps, getApp } from 'firebase/app';
 
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -14,9 +13,8 @@ export const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebaseAppConfig = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const appClient = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-const db: Firestore = getFirestore(firebaseAppConfig);
-const storage = getStorage(firebaseAppConfig);
+const firestore = getFirestore(appClient);
 
-export { firebaseAppConfig, db, storage };
+export { firestore, appClient };
