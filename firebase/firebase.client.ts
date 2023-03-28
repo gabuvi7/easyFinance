@@ -13,8 +13,8 @@ export const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const appClient = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-const firestore = getFirestore(app);
+const firestore = getFirestore(appClient);
 
-export { firestore, app };
+export { firestore, appClient };
