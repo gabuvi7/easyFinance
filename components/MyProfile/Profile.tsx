@@ -42,9 +42,7 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
             <Button
               className={styles.copyButton}
               type="text"
-              onClick={() => {
-                navigator.clipboard.writeText(personalData?.cuilCuit);
-              }}
+              onClick={() => handleCopy(personalData?.cuilCuit)}
             >
               <CopyOutlined className={styles.copyIcon} />
             </Button>
