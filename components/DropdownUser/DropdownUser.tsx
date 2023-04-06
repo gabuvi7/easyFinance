@@ -47,7 +47,7 @@ function DropdownUser({ user }: IUser) {
         >
           {!user?.image && getInitials(user?.name!)}
         </Avatar>
-        <Text>Hola {user?.name}</Text>
+        <Text> Hi {user?.name}!</Text>
         <DownOutlined />
       </Button>
     </Dropdown>

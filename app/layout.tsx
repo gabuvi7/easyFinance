@@ -4,7 +4,7 @@ import { ChildrenProps } from '../utils/interfaces/children.interface';
 
 import '../styles/globals.scss';
 import { ContentAppLayout, GeneralLayout, Sidebar } from '../components';
-import { getCurrentUser } from '../lib/session';
+import { getCurrentUser } from '../lib/user';
 
 export const metadata: Metadata = {
   title: 'EasyFinance',
