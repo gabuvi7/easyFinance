@@ -6,6 +6,7 @@ import { withAuth } from 'next-auth/middleware';
 export default withAuth(
   async function middleware(req: NextRequest) {
     const requestHeaders = new Headers(req.headers);
+    requestHeaders.set('Content-Type', 'application/json');
 
     const token = await getToken({ req });
     const isAuth = !!token;
