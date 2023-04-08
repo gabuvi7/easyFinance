@@ -36,6 +36,8 @@ export const authOptions: AuthOptions = {
           monotributoCategory: '',
           name: user.given_name ?? user.name,
           firstLogin: true,
+          country: 'Argentina',
+          state: '',
         });
       } else {
         user.isNewUser = false;

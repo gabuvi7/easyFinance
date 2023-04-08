@@ -1,30 +1,48 @@
-import * as crypto from 'crypto';
 import { firestoreAdmin } from '../firebase/firebase.admin.config';
 
-const encryptionKey = 'your-32-byte-encryption-key'; // Reemplazar con una clave de 32 bytes (256 bits) segura
-const algorithm = 'aes-256-cbc';
+const encryptionKey = new Uint8Array(32); // Replace with a secure 32-byte (256-bit) encryption key
+const algorithm = 'AES-CBC';
 
-function encryptPassword(password: string): string {
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv(algorithm, Buffer.from(encryptionKey, 'hex'), iv);
-  const encryptedPassword = Buffer.concat([
-    cipher.update(Buffer.from(password, 'utf8')),
-    cipher.final(),
-  ]);
+async function encryptPassword(password: string): Promise<string> {
+  const iv = window.crypto.getRandomValues(new Uint8Array(16));
+  const key = await window.crypto.subtle.importKey(
+    'raw',
+    encryptionKey,
+    { name: algorithm },
+    false,
+    ['encrypt']
+  );
+  const encryptedPassword = await window.crypto.subtle.encrypt(
+    { name: algorithm, iv },
+    key,
+    new TextEncoder().encode(password)
+  );
 
-  return `${iv.toString('hex')}:${encryptedPassword.toString('hex')}`;
+  return `${Buffer.from(iv).toString('hex')}:${Buffer.from(encryptedPassword).toString('hex')}`;
 }
 
-function decryptPassword(encryptedPassword: string): string {
-  const [iv, encrypted] = encryptedPassword.split(':').map((part) => Buffer.from(part, 'hex'));
-  const decipher = crypto.createDecipheriv(algorithm, Buffer.from(encryptionKey, 'hex'), iv);
-  const decryptedPassword = Buffer.concat([decipher.update(encrypted), decipher.final()]);
+async function decryptPassword(encryptedPassword: string): Promise<string> {
+  const [ivHex, encryptedHex] = encryptedPassword.split(':');
+  const iv = Uint8Array.from(Buffer.from(ivHex, 'hex'));
+  const encrypted = Uint8Array.from(Buffer.from(encryptedHex, 'hex'));
+  const key = await window.crypto.subtle.importKey(
+    'raw',
+    encryptionKey,
+    { name: algorithm },
+    false,
+    ['decrypt']
+  );
+  const decryptedPassword = await window.crypto.subtle.decrypt(
+    { name: algorithm, iv },
+    key,
+    encrypted
+  );
 
-  return decryptedPassword.toString('utf8');
+  return new TextDecoder().decode(decryptedPassword);
 }
 
-async function storePassword(username: string, password: string) {
-  const encryptedPassword = encryptPassword(password);
+async function storePassword(username: string, password: string): Promise<void> {
+  const encryptedPassword = await encryptPassword(password);
   await firestoreAdmin.collection('users').doc(username).set({
     password: encryptedPassword,
   });
@@ -40,7 +58,7 @@ async function getPassword(username: string): Promise<string | null> {
   return decryptPassword(encryptedPassword);
 }
 
-// Uso del algoritmo
+// Usage
 (async () => {
   const username = 'user1';
   const password = 'password123';
@@ -48,5 +66,5 @@ async function getPassword(username: string): Promise<string | null> {
   await storePassword(username, password);
   const decryptedPassword = await getPassword(username);
 
-  console.log('La contraseña descifrada es:', decryptedPassword); // Salida: "La contraseña descifrada es: password123"
+  console.log('The decrypted password is:', decryptedPassword); // Output: "The decrypted password is: password123"
 })();

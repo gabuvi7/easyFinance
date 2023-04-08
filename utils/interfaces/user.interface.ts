@@ -9,4 +9,6 @@ export interface PersonalData {
   fiscalPassword: string;
   iIBBType: string;
   firstLogin: boolean;
+  country: string;
+  state: string;
 }

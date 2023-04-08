@@ -1,4 +1,6 @@
+import ProfileForm from '../../components/MyProfile/ProfileForm';
+
 function Account() {
-  return <div>Account</div>;
+  return <ProfileForm />;
 }
 export default Account;
