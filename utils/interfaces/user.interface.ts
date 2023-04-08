@@ -4,7 +4,7 @@ export interface PersonalData {
   cuilCuit: string;
   monotributoCategory: string;
   iIBBStatus: string;
-  diversionOfContributionStatus: string;
+  diversionOfContribution: false;
   healthInsurance: string;
   fiscalPassword: string;
   iIBBType: string;

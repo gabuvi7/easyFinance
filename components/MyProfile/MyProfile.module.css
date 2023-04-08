@@ -42,11 +42,12 @@
   margin-left: 8px;
 }
 
-.label {
-  font-size: 0.96rem;
-  font-weight: 400;
-  color: #888;
-  margin-right: 8px;
+.label,
+.formItemState > div > div > label {
+  font-size: 0.96rem !important;
+  font-weight: 400 !important;
+  color: #888 !important;
+  margin-right: 8px !important;
 }
 
 .profileDivider {
@@ -94,6 +95,10 @@
 
 .contentFont {
   font-size: 1rem;
+}
+
+.selectState {
+  width: 210px !important;
 }
 
 @media (min-width: 561px) {

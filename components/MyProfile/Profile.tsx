@@ -4,13 +4,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button, Input, message, Space, Tag, theme as antTheme } from 'antd';
+import { Button, Input, Space, Tag, theme as antTheme } from 'antd';
 import { CopyOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { DocumentData } from 'firebase-admin/firestore';
 import styles from './MyProfile.module.css';
 import CustomCard from '../CustomCard/CustomCard';
 import { PersonalData } from '../../utils/interfaces/user.interface';
 import { AfipData } from '../../utils/interfaces/afip.interface';
+import { handleCopy } from '../../utils';
 
 type MyProfileArg = {
   personalData: PersonalData | DocumentData;
@@ -22,12 +23,6 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
     token: { colorSuccess, colorInfo },
   } = antTheme.useToken();
   const [showFiscalPassword, setShowFiscalPassword] = useState<boolean>(false);
-
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      message.success('Copied to clipboard');
-    });
-  };
 
   return (
     <div className={styles.container}>
@@ -63,7 +58,9 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
           </div>
           <div>
             <span className={styles.label}>Diversion of Contribution:</span>
-            <Tag color={colorSuccess}>{personalData?.diversionOfContributionStatus}</Tag>
+            <Tag color={colorSuccess}>
+              {personalData?.diversionOfContribution ? 'Active' : 'Inactive'}
+            </Tag>
             <span className={styles.contentFont}>- {personalData?.healthInsurance}</span>
           </div>
           <div>

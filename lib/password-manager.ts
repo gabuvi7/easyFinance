@@ -3,7 +3,7 @@ import { firestoreAdmin } from '../firebase/firebase.admin.config';
 const encryptionKey = new Uint8Array(32); // Replace with a secure 32-byte (256-bit) encryption key
 const algorithm = 'AES-CBC';
 
-async function encryptPassword(password: string): Promise<string> {
+export async function encryptPassword(password: string): Promise<string> {
   const iv = window.crypto.getRandomValues(new Uint8Array(16));
   const key = await window.crypto.subtle.importKey(
     'raw',
@@ -21,7 +21,7 @@ async function encryptPassword(password: string): Promise<string> {
   return `${Buffer.from(iv).toString('hex')}:${Buffer.from(encryptedPassword).toString('hex')}`;
 }
 
-async function decryptPassword(encryptedPassword: string): Promise<string> {
+export async function decryptPassword(encryptedPassword: string): Promise<string> {
   const [ivHex, encryptedHex] = encryptedPassword.split(':');
   const iv = Uint8Array.from(Buffer.from(ivHex, 'hex'));
   const encrypted = Uint8Array.from(Buffer.from(encryptedHex, 'hex'));
