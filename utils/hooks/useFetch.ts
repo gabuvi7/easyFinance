@@ -3,18 +3,23 @@
 import { useState, useEffect, useRef } from 'react';
 import { fetchData } from '../../lib/fetchData';
 
-interface UseFetchParams {
+interface DataReceived {
+  onDataReceived: (data: any) => void;
+}
+
+interface UseFetchParams<T> {
   url: string;
   options?: any;
   doInitialCall?: boolean;
   maxRetry?: number;
   onError?: (error: any) => void;
+  onDataReceived?: (data: T) => void;
 }
 
 interface FetchResponse<T> {
   data: T | null;
   loading: boolean;
-  fetchDataManually: (newOptions?: any) => Promise<void>;
+  fetchDataManually: (newOptions?: any, dataReceived?: DataReceived) => Promise<void>;
 }
 
 export function useFetch<T>({
@@ -23,18 +28,22 @@ export function useFetch<T>({
   doInitialCall = true,
   maxRetry = 0,
   onError,
-}: UseFetchParams): FetchResponse<T> {
+}: UseFetchParams<T>): FetchResponse<T> {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const retryCountRef = useRef(0);
   const optionsRef = useRef(options);
 
-  const fetchDataManually = async (newOptions?: any) => {
+  const fetchDataManually = async (
+    newOptions?: any,
+    dataReceived?: DataReceived
+  ): Promise<void> => {
     setLoading(true);
-    fetchData<T>(url, { ...optionsRef.current, ...newOptions })
+    return fetchData<T>(url, { ...optionsRef.current, ...newOptions })
       .then((dataFetched) => {
         setData(dataFetched);
         retryCountRef.current = 0; // reset retry count when fetch succeeds
+        if (dataReceived) dataReceived.onDataReceived(dataFetched); // Invoke the onDataReceived callback
       })
       .catch((errorFetched) => {
         if (retryCountRef.current < maxRetry) {

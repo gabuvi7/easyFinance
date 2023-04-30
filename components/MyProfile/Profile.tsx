@@ -24,6 +24,10 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
   } = antTheme.useToken();
   const [showFiscalPassword, setShowFiscalPassword] = useState<boolean>(false);
 
+  const getMonthlyBilling = (anualBilling: number) => {
+    return Number.parseFloat((anualBilling / 12).toFixed(2));
+  };
+
   return (
     <div className={styles.container}>
       <CustomCard title="My Personal Data" bordered={false}>
@@ -45,10 +49,13 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
         </div>
         <Space className={styles.dataRow}>
           <div>
-            <span className={styles.label}>Monotributo:</span>
+            <span className={styles.label}>Simplified Regime:</span>
             <span className={styles.contentFont}>
               <Tag color={colorInfo}>{personalData?.monotributoCategory}</Tag>- $
               {afipData?.anualBilling}/year
+            </span>{' '}
+            <span className={styles.contentFont}>
+              ${getMonthlyBilling(afipData?.anualBilling)}/month
             </span>
           </div>
           <div>
@@ -57,23 +64,21 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
             <span className={styles.registered}>{personalData?.iIBBStatus}</span>
           </div>
           <div>
-            <span className={styles.label}>Diversion of Contribution:</span>
+            <span className={styles.label}>Allocation of Contributions:</span>
             <Tag color={colorSuccess}>
-              {personalData?.diversionOfContribution ? 'Active' : 'Inactive'}
+              {personalData?.allocationOfContribution ? 'Active' : 'Inactive'}
             </Tag>
-            <span className={styles.contentFont}>- {personalData?.healthInsurance}</span>
           </div>
           <div>
             <span className={styles.label}>Health Insurance:</span>
             <Tag color={colorSuccess}>{personalData?.healthInsurance}</Tag>
-            <span className={styles.contentFont}>- {personalData?.healthInsurance}</span>
           </div>
         </Space>
       </CustomCard>
       <CustomCard title="My Payments" bordered={false}>
         <Space className={styles.dataRow}>
           <div>
-            <span className={styles.label}>Monotributo:</span>
+            <span className={styles.label}>Simplified Regime:</span>
             <Tag color={colorInfo}>{personalData?.monotributoCategory}</Tag>-
             <span> ${afipData?.monthlyPayment}/month</span>
           </div>

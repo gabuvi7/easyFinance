@@ -38,7 +38,7 @@ export const authOptions: AuthOptions = {
           firstLogin: true,
           country: 'Argentina',
           state: '',
-          diversionOfContribution: false,
+          allocationOfContribution: false,
         });
       } else {
         user.isNewUser = false;

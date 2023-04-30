@@ -43,7 +43,7 @@
 }
 
 .label,
-.formItemState > div > div > label {
+.formItem > div > div > label {
   font-size: 0.96rem !important;
   font-weight: 400 !important;
   color: #888 !important;
@@ -97,8 +97,8 @@
   font-size: 1rem;
 }
 
-.selectState {
-  width: 210px !important;
+.formItemElement {
+  max-width: 290px !important;
 }
 
 @media (min-width: 561px) {
