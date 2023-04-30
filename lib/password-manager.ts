@@ -1,52 +1,25 @@
-import * as crypto from 'crypto';
-import { firestoreAdmin } from '../firebase/firebase.admin.config';
+import crypto from 'crypto';
 
-const encryptionKey = 'your-32-byte-encryption-key'; // Reemplazar con una clave de 32 bytes (256 bits) segura
 const algorithm = 'aes-256-cbc';
-
-function encryptPassword(password: string): string {
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv(algorithm, Buffer.from(encryptionKey, 'hex'), iv);
-  const encryptedPassword = Buffer.concat([
-    cipher.update(Buffer.from(password, 'utf8')),
-    cipher.final(),
-  ]);
-
-  return `${iv.toString('hex')}:${encryptedPassword.toString('hex')}`;
+if (!process.env.ENCRYPT_PHRASE) {
+  throw new Error('ENCRYPT_PHRASE environment variable is not set');
 }
 
-function decryptPassword(encryptedPassword: string): string {
-  const [iv, encrypted] = encryptedPassword.split(':').map((part) => Buffer.from(part, 'hex'));
-  const decipher = crypto.createDecipheriv(algorithm, Buffer.from(encryptionKey, 'hex'), iv);
-  const decryptedPassword = Buffer.concat([decipher.update(encrypted), decipher.final()]);
+const phrase = process.env.ENCRYPT_PHRASE;
+const encryptionKey = crypto.createHash('sha256').update(phrase).digest();
+const iv = crypto.randomBytes(16);
 
-  return decryptedPassword.toString('utf8');
+export function encryptPassword(password: string): string {
+  const cipher = crypto.createCipheriv(algorithm, encryptionKey, iv);
+  const encrypted = cipher.update(password, 'utf8', 'hex') + cipher.final('hex');
+
+  return `${iv.toString('hex')}:${encrypted}`;
 }
 
-async function storePassword(username: string, password: string) {
-  const encryptedPassword = encryptPassword(password);
-  await firestoreAdmin.collection('users').doc(username).set({
-    password: encryptedPassword,
-  });
+export function decryptPassword(encryptedPassword: string): string {
+  const [ivHex, encryptedHex] = encryptedPassword.split(':');
+  const decipher = crypto.createDecipheriv(algorithm, encryptionKey, Buffer.from(ivHex, 'hex'));
+  const decrypted = decipher.update(encryptedHex, 'hex', 'utf8') + decipher.final('utf8');
+
+  return decrypted;
 }
-
-async function getPassword(username: string): Promise<string | null> {
-  const userDoc = await firestoreAdmin.collection('users').doc(username).get();
-  if (!userDoc.exists) {
-    return null;
-  }
-
-  const encryptedPassword = userDoc.data()!.password as string;
-  return decryptPassword(encryptedPassword);
-}
-
-// Uso del algoritmo
-(async () => {
-  const username = 'user1';
-  const password = 'password123';
-
-  await storePassword(username, password);
-  const decryptedPassword = await getPassword(username);
-
-  console.log('La contraseña descifrada es:', decryptedPassword); // Salida: "La contraseña descifrada es: password123"
-})();

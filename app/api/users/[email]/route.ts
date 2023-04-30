@@ -4,22 +4,19 @@ import { firestoreAdmin } from '../../../../firebase/firebase.admin.config';
 export async function PUT(req: NextRequest, { params }: any) {
   const data = await req.json();
   const { email } = params;
-  let status;
-  let message;
   const userRef = firestoreAdmin.collection('users').doc(email);
+  try {
+    await userRef.update(data);
 
-  await userRef
-    .update(data)
-    .then(() => {
-      status = 200;
-      message = 'Updated';
-    })
-    .catch((error) => {
-      status = 500;
-      message = error;
+    const response = new Response(JSON.stringify({ message: 'Updated!' }), {
+      status: 200,
     });
 
-  return new Response(message, {
-    status,
-  });
+    return response;
+  } catch (error) {
+    const response = new Response(JSON.stringify({ message: error }), {
+      status: 500,
+    });
+    return response;
+  }
 }

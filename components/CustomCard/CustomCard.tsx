@@ -12,6 +12,7 @@ interface CustomCardProps extends CardProps {
   defaultStyles?: boolean;
   bg?: string;
   borderColor?: string;
+  maxWidth?: string;
 }
 
 const CustomCard: FC<CustomCardProps> = ({
@@ -20,12 +21,15 @@ const CustomCard: FC<CustomCardProps> = ({
   children,
   bg,
   borderColor,
+  maxWidth,
   ...props
 }) => {
   const {
     token: { colorInfoBorder, colorBgElevated },
   } = antTheme.useToken();
-  const cardStyle = defaultStyles ? { border: colorInfoBorder, background: colorBgElevated } : {};
+  const cardStyle = defaultStyles
+    ? { border: colorInfoBorder, background: colorBgElevated, maxWidth }
+    : {};
 
   return (
     <Card className={styles.card} title={title} bordered={false} style={cardStyle} {...props}>

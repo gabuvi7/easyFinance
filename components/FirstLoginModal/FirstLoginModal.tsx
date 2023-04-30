@@ -2,9 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Modal } from 'antd';
+import { Modal, notification } from 'antd';
 import styles from './FirstLoginModal.module.css';
 import { useFetch } from '../../utils/hooks/useFetch';
+import { PersonalDataResponse } from '../../utils/interfaces/user.interface';
 
 interface FirstLoginModalProps {
   isOpen: boolean;
@@ -14,23 +15,32 @@ interface FirstLoginModalProps {
 function FirstLoginModal({ isOpen, email }: FirstLoginModalProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const {
-    loading: isLoading,
-    error,
-    fetchDataManually,
-  } = useFetch(`/api/users/${email}`, { method: 'PUT' }, false);
+
+  const { loading: isLoading, fetchDataManually } = useFetch<PersonalDataResponse>({
+    url: `/api/users/${email}`,
+    options: { method: 'PUT' },
+    doInitialCall: false,
+    onError: () => {
+      notification.error({
+        message: 'Oh!',
+        description: 'An error has occurred. Please try again later.',
+      });
+    },
+  });
 
   const showModal = () => {
     setOpen(true);
   };
 
   const handleOk = async () => {
-    await fetchDataManually({ body: JSON.stringify({ firstLogin: false }) })
+    await fetchDataManually({
+      body: JSON.stringify({ firstLogin: false }),
+    })
       .then(() => {
         router.push('/account');
       })
       .catch(() => {
-        console.log('error: ', error);
+        console.log('error ');
       });
   };
 

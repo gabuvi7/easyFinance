@@ -4,9 +4,15 @@ export interface PersonalData {
   cuilCuit: string;
   monotributoCategory: string;
   iIBBStatus: string;
-  diversionOfContributionStatus: string;
+  allocationOfContribution: boolean;
   healthInsurance: string;
   fiscalPassword: string;
   iIBBType: string;
   firstLogin: boolean;
+  country: string;
+  state: string;
+}
+
+export interface PersonalDataResponse {
+  message: string;
 }
