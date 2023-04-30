@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unstable-nested-components */
 
 'use client';
 
-import { useState, ReactEventHandler } from 'react';
+import { useState, ReactEventHandler, useEffect } from 'react';
 import {
   CheckOutlined,
   CloseOutlined,
@@ -11,16 +12,35 @@ import {
   LockOutlined,
 } from '@ant-design/icons';
 import { Button, Col, Form, Input, notification, Row, Select, Switch, Tag, theme } from 'antd';
+import { DocumentData } from 'firebase-admin/firestore';
 import { getKeyByValue } from '../../utils';
 import { RevenueAgencies, statesValues } from '../../utils/enums/enums';
 import { useFetch } from '../../utils/hooks/useFetch';
 import { AfipDataResponse } from '../../utils/interfaces/afip.interface';
-import { Encrypt } from '../../utils/interfaces/encrypt.interface';
+import { DecryptResponse, Encrypt } from '../../utils/interfaces/encrypt.interface';
 import CustomCard from '../CustomCard/CustomCard';
 import styles from './MyProfile.module.css';
 import { PersonalData, PersonalDataResponse } from '../../utils/interfaces/user.interface';
 
-function ProfileForm({ userEmail }: { userEmail: string }) {
+type ProfileArgs = {
+  user: PersonalData | DocumentData;
+  userEmail: string;
+};
+
+type ProfileFormType = Pick<
+  PersonalData,
+  | 'country'
+  | 'cuilCuit'
+  | 'allocationOfContribution'
+  | 'fiscalPassword'
+  | 'healthInsurance'
+  | 'iIBBType'
+  | 'iIBBStatus'
+  | 'monotributoCategory'
+  | 'state'
+>;
+
+function ProfileForm({ userEmail, user }: ProfileArgs) {
   const [form] = Form.useForm();
   const [revenueAgency, setRevenueAgency] = useState('');
   const [showFiscalPassword, setShowFiscalPassword] = useState<boolean>(false);
@@ -57,6 +77,22 @@ function ProfileForm({ userEmail }: { userEmail: string }) {
       });
     },
   });
+
+  const { fetchDataManually: decryptFiscalPassword, loading: isDecryptingFiscalPassword } =
+    useFetch<DecryptResponse>({
+      url: '/api/decrypt',
+      options: {
+        method: 'POST',
+      },
+      maxRetry: 3,
+      doInitialCall: false,
+      onError: () => {
+        notification.error({
+          message: 'Error decrypting data',
+          description: 'Couldn`t decrypt your fiscal password',
+        });
+      },
+    });
 
   const { loading: isUploading, fetchDataManually: uploadData } = useFetch<PersonalDataResponse>({
     url: `/api/users/${userEmail}`,
@@ -111,18 +147,7 @@ function ProfileForm({ userEmail }: { userEmail: string }) {
 
   const onFinish = async (values: any) => {
     const formData = { ...values };
-    let personalData: Pick<
-      PersonalData,
-      | 'country'
-      | 'cuilCuit'
-      | 'allocationOfContribution'
-      | 'fiscalPassword'
-      | 'healthInsurance'
-      | 'iIBBType'
-      | 'iIBBStatus'
-      | 'monotributoCategory'
-      | 'state'
-    >;
+    let personalData: ProfileFormType;
     if (formData.fiscalPassword) {
       await encryptFiscalPassword(
         {
@@ -152,6 +177,42 @@ function ProfileForm({ userEmail }: { userEmail: string }) {
       body: JSON.stringify(personalData),
     });
   };
+
+  const defaultUserFiscalPassword = async () => {
+    if (user) {
+      await decryptFiscalPassword(
+        {
+          body: JSON.stringify({ fiscalPassword: user.fiscalPassword }),
+        },
+        {
+          onDataReceived: (decryptedFiscalPassword: DecryptResponse) => {
+            form.setFieldsValue({
+              fiscalPassword: decryptedFiscalPassword.decryptedData,
+            });
+          },
+        }
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      form.setFieldsValue({
+        country: user.country,
+        cuilCuit: user.cuilCuit,
+        allocationOfContribution: user.allocationOfContribution ? 1 : 0,
+        healthInsurance: user.healthInsurance,
+        iIBBType: user.iIBBType,
+        iIBBStatus: user.iIBBStatus,
+        monotributoCategory: user.monotributoCategory,
+        state: user.state,
+      });
+      if (user.iIBBType) {
+        setRevenueAgency(user.iIBBType);
+      }
+      defaultUserFiscalPassword();
+    }
+  }, [user]);
 
   return (
     <div className={styles.container}>
@@ -335,6 +396,7 @@ function ProfileForm({ userEmail }: { userEmail: string }) {
                   visibilityToggle
                   onClick={() => setShowFiscalPassword(!showFiscalPassword)}
                   autoComplete="off"
+                  disabled={isDecryptingFiscalPassword}
                 />
               </Form.Item>
             </Col>

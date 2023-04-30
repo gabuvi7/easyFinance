@@ -1,8 +1,9 @@
 import ProfileForm from '../../components/MyProfile/ProfileForm';
-import { getCurrentUser } from '../../lib/user';
+import { getCurrentUser, getUserData } from '../../lib/user';
 
 async function Account() {
   const user = await getCurrentUser();
-  return <ProfileForm userEmail={user.email} />;
+  const userData = await getUserData(user.email);
+  return <ProfileForm userEmail={user.email} user={userData!} />;
 }
 export default Account;
