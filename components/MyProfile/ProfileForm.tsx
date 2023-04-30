@@ -45,7 +45,7 @@ function ProfileForm({ userEmail }: { userEmail: string }) {
       });
     },
   });
-  const { fetchDataManually } = useFetch<Encrypt>({
+  const { fetchDataManually: encryptFiscalPassword } = useFetch<Encrypt>({
     url: '/api/encrypt',
     options: { method: 'POST' },
     maxRetry: 3,
@@ -53,7 +53,7 @@ function ProfileForm({ userEmail }: { userEmail: string }) {
     onError: () => {
       notification.error({
         message: 'Error encrypting data',
-        description: 'Could encrypt your fiscal password',
+        description: 'Couldn`t encrypt your fiscal password',
       });
     },
   });
@@ -124,7 +124,7 @@ function ProfileForm({ userEmail }: { userEmail: string }) {
       | 'state'
     >;
     if (formData.fiscalPassword) {
-      await fetchDataManually(
+      await encryptFiscalPassword(
         {
           body: JSON.stringify({ fiscalPassword: formData.fiscalPassword }),
         },

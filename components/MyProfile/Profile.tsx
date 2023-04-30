@@ -4,7 +4,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button, Input, Space, Tag, theme as antTheme } from 'antd';
+import { Button, Input, notification, Space, Tag, theme as antTheme } from 'antd';
 import { CopyOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { DocumentData } from 'firebase-admin/firestore';
 import styles from './MyProfile.module.css';
@@ -12,6 +12,8 @@ import CustomCard from '../CustomCard/CustomCard';
 import { PersonalData } from '../../utils/interfaces/user.interface';
 import { AfipData } from '../../utils/interfaces/afip.interface';
 import { handleCopy } from '../../utils';
+import { useFetch } from '../../utils/hooks/useFetch';
+import { DecryptResponse } from '../../utils/interfaces/encrypt.interface';
 
 type MyProfileArg = {
   personalData: PersonalData | DocumentData;
@@ -23,6 +25,22 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
     token: { colorSuccess, colorInfo },
   } = antTheme.useToken();
   const [showFiscalPassword, setShowFiscalPassword] = useState<boolean>(false);
+  const { data: decryptedFiscalPassword, loading: isLoadingFiscalPassword } =
+    useFetch<DecryptResponse>({
+      url: '/api/decrypt',
+      options: {
+        method: 'POST',
+        body: JSON.stringify({ fiscalPassword: personalData.fiscalPassword }),
+      },
+      maxRetry: 3,
+      doInitialCall: true,
+      onError: () => {
+        notification.error({
+          message: 'Error decrypting data',
+          description: 'Couldn`t decrypt your fiscal password',
+        });
+      },
+    });
 
   const getMonthlyBilling = (anualBilling: number) => {
     return Number.parseFloat((anualBilling / 12).toFixed(2));
@@ -93,7 +111,7 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
         <div className={styles.passwordRow}>
           <span className={styles.label}>Fiscal Password:</span>
           <Input.Password
-            value={personalData?.fiscalPassword}
+            value={decryptedFiscalPassword?.decryptedData ?? ''}
             className={styles.fiscalPasswordInput}
             iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
             readOnly
@@ -101,7 +119,8 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
             onClick={() => setShowFiscalPassword(!showFiscalPassword)}
             addonAfter={
               <Button
-                onClick={() => handleCopy(personalData?.fiscalPassword)}
+                loading={isLoadingFiscalPassword}
+                onClick={() => handleCopy(decryptedFiscalPassword?.decryptedData ?? '')}
                 icon={<CopyOutlined />}
                 type="text"
                 size="small"
