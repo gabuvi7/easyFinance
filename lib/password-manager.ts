@@ -1,25 +1,45 @@
 import crypto from 'crypto';
 
-const algorithm = 'aes-256-cbc';
+const algorithm = 'aes-256-gcm';
+const keyLength = 32;
+const ivLength = 16;
+const authTagLength = 16;
+
 if (!process.env.ENCRYPT_PHRASE) {
   throw new Error('ENCRYPT_PHRASE environment variable is not set');
 }
 
-const phrase = process.env.ENCRYPT_PHRASE;
-const encryptionKey = crypto.createHash('sha256').update(phrase).digest();
-const iv = crypto.randomBytes(16);
+const passphrase = process.env.ENCRYPT_PHRASE as string;
+
+function getKey(): Buffer {
+  return crypto.createHash('sha256').update(passphrase).digest().subarray(0, keyLength);
+}
 
 export function encryptPassword(password: string): string {
-  const cipher = crypto.createCipheriv(algorithm, encryptionKey, iv);
-  const encrypted = cipher.update(password, 'utf8', 'hex') + cipher.final('hex');
+  const key = getKey();
+  const iv = crypto.randomBytes(ivLength);
+  const cipher = crypto.createCipheriv(algorithm, key, iv);
+  const cipherText = Buffer.concat([cipher.update(password, 'utf8'), cipher.final()]);
+  const authTag = cipher.getAuthTag();
 
-  return `${iv.toString('hex')}:${encrypted}`;
+  return Buffer.concat([iv, authTag, cipherText]).toString('base64');
 }
 
 export function decryptPassword(encryptedPassword: string): string {
-  const [ivHex, encryptedHex] = encryptedPassword.split(':');
-  const decipher = crypto.createDecipheriv(algorithm, encryptionKey, Buffer.from(ivHex, 'hex'));
-  const decrypted = decipher.update(encryptedHex, 'hex', 'utf8') + decipher.final('utf8');
+  try {
+    const data = Buffer.from(encryptedPassword, 'base64');
+    const iv = data.subarray(0, ivLength);
+    const authTag = data.subarray(ivLength, ivLength + authTagLength);
+    const cipherText = data.subarray(ivLength + authTagLength);
 
-  return decrypted;
+    const key = getKey();
+    const decipher = crypto.createDecipheriv(algorithm, key, iv);
+    decipher.setAuthTag(authTag);
+
+    const decrypted = Buffer.concat([decipher.update(cipherText), decipher.final()]);
+    return decrypted.toString('utf8');
+  } catch (error) {
+    console.error(error);
+    return '';
+  }
 }
