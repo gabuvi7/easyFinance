@@ -26,20 +26,15 @@ export function encryptPassword(password: string): string {
 }
 
 export function decryptPassword(encryptedPassword: string): string {
-  try {
-    const data = Buffer.from(encryptedPassword, 'base64');
-    const iv = data.subarray(0, ivLength);
-    const authTag = data.subarray(ivLength, ivLength + authTagLength);
-    const cipherText = data.subarray(ivLength + authTagLength);
+  const data = Buffer.from(encryptedPassword, 'base64');
+  const iv = data.subarray(0, ivLength);
+  const authTag = data.subarray(ivLength, ivLength + authTagLength);
+  const cipherText = data.subarray(ivLength + authTagLength);
 
-    const key = getKey();
-    const decipher = crypto.createDecipheriv(algorithm, key, iv);
-    decipher.setAuthTag(authTag);
+  const key = getKey();
+  const decipher = crypto.createDecipheriv(algorithm, key, iv);
+  decipher.setAuthTag(authTag);
 
-    const decrypted = Buffer.concat([decipher.update(cipherText), decipher.final()]);
-    return decrypted.toString('utf8');
-  } catch (error) {
-    console.error(error);
-    return '';
-  }
+  const decrypted = Buffer.concat([decipher.update(cipherText), decipher.final()]);
+  return decrypted.toString('utf8');
 }
