@@ -6,8 +6,7 @@ export async function POST(req: NextRequest) {
   const { fiscalPassword } = data;
 
   try {
-    let decryptedData: string = '';
-    decryptedData = decryptPassword(fiscalPassword);
+    const decryptedData: string = decryptPassword(fiscalPassword);
 
     const response = new Response(JSON.stringify({ decryptedData }), {
       status: 200,

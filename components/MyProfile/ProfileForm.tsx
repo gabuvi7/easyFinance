@@ -175,6 +175,11 @@ function ProfileForm({ userEmail, user }: ProfileArgs) {
 
     await uploadData({
       body: JSON.stringify(personalData),
+    }).then(() => {
+      notification.success({
+        message: 'Success',
+        description: 'Your data has been updated',
+      });
     });
   };
 
