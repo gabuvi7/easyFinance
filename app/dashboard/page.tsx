@@ -1,3 +1,5 @@
+import DashboardTabs from '../../components/DashboardTabs/DashboardTabs';
+
 interface IGetPrice {
   from: string;
   to: string;
@@ -17,8 +19,12 @@ async function getData({ from, to }: IGetPrice) {
 
 async function Dashboard() {
   const data = await getData({ from: 'USDT', to: 'ARS' });
-
-  return <div>1 USDT = {Number.parseInt(data.USDT.price, 10)}</div>;
+  return (
+    <>
+      <DashboardTabs />
+      <div>1 USDT = {Number.parseInt(data.USDT.price, 10)}</div>
+    </>
+  );
 }
 
 export default Dashboard;

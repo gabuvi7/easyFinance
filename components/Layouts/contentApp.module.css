@@ -30,6 +30,6 @@
   .contentLayout {
     margin: 1rem 16px;
     padding: 0px;
-    minheight: 280px;
+    min-height: 280px;
   }
 }
