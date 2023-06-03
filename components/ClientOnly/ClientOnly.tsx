@@ -1,8 +1,8 @@
 'use client';
 
+import { ChildrenProps } from '@/utils';
 import { useState, useEffect } from 'react';
 import { StyledLoading } from '..';
-import { ChildrenProps } from '../../utils';
 
 function ClientOnly({ children, ...delegated }: ChildrenProps) {
   const [hasMounted, setHasMounted] = useState(false);

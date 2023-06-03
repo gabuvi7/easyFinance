@@ -1,5 +1,6 @@
-import { type NextRequest } from 'next/server';
-import { firestoreAdmin } from '../../../../../../firebase/firebase.admin.config';
+import { NextRequest } from 'next/server';
+import { firestoreAdmin } from '@firebaseEF/firebase.admin.config';
+import { IncomeByDate, IncomeData } from '@interfaces/incomes.interface';
 
 export async function GET(req: NextRequest, { params }: any) {
   const { email, date } = params;
@@ -11,19 +12,9 @@ export async function GET(req: NextRequest, { params }: any) {
 
   try {
     const incomeByDate = await incomeByDateRef.get();
-    const incomeByDateArray: any[] = [];
-    incomeByDate.data()?.forEach((doc: { incomeSources: any; month: any; totalIncome: any }) => {
-      incomeByDateArray.push({
-        incomeSources: doc.incomeSources,
-        month: doc.month,
-        totalIncome: doc.totalIncome,
-      });
-    });
+    const incomeByDateData = incomeByDate.data() as IncomeByDate;
 
-    const response = new Response(JSON.stringify({ incomeByDateArray }), {
-      status: 200,
-    });
-
+    const response = new Response(JSON.stringify({ incomeByDateData }), { status: 200 });
     return response;
   } catch (error) {
     const response = new Response(`Error getting documents: ${error}`, {
@@ -34,11 +25,17 @@ export async function GET(req: NextRequest, { params }: any) {
 }
 
 export async function POST(req: NextRequest, { params }: any) {
-  const data = await req.json();
-  const { amount, sourceName } = data;
+  const { amount, sourceName } = (await req.json()) as IncomeData;
   const { email, date } = params;
 
-  // Get a reference to the Income Month document
+  // Input validation
+  if (!amount || Number.isNaN(amount) || amount <= 0 || !sourceName) {
+    const response = new Response(JSON.stringify({ message: 'Invalid input data' }), {
+      status: 400,
+    });
+    return response;
+  }
+
   const incomeByDateRef = firestoreAdmin
     .collection('users')
     .doc(email)
@@ -46,21 +43,24 @@ export async function POST(req: NextRequest, { params }: any) {
     .doc(date);
 
   try {
-    // Get the Income Month document
-    incomeByDateRef.get().then((docSnapshot) => {
+    // Use a transaction to update the income data
+    await firestoreAdmin.runTransaction(async (transaction) => {
+      const docSnapshot = await transaction.get(incomeByDateRef);
+
       if (docSnapshot.exists) {
-        // If the document exists, update it
-        const incomeSourcesData = docSnapshot.data()?.incomeSources;
-        incomeSourcesData.push({ amount, sourceName });
-        const totalIncome = docSnapshot.data()!.totalIncome + amount;
-        incomeByDateRef.update({ totalIncome, incomeSourcesData });
+        const incomeSources = docSnapshot.data()?.incomeSources || [];
+        const totalIncome = (docSnapshot.data()?.totalIncome || 0) + amount;
+        // get the last id in the array
+        const id = incomeSources.length ? incomeSources[incomeSources.length - 1].id + 1 : 0;
+        incomeSources.push({ amount, sourceName, id });
+        transaction.update(incomeByDateRef, { totalIncome, incomeSources });
       } else {
-        // If the document does not exist, create it
-        const incomeSources = [{ sourceName, amount }];
+        const incomeSources = [{ sourceName, amount, id: 0 }];
         const totalIncome = amount;
-        incomeByDateRef.set({ date, totalIncome, incomeSources });
+        transaction.set(incomeByDateRef, { date, totalIncome, incomeSources });
       }
     });
+
     const response = new Response(JSON.stringify({ message: 'Income data has been uploaded!' }), {
       status: 200,
     });

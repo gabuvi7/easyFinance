@@ -2,18 +2,17 @@ import { firestoreAdmin } from '../../../firebase/firebase.admin.config';
 import { AfipData } from '../../../utils/interfaces/afip.interface';
 
 export async function GET() {
-  const monotributoRef = firestoreAdmin.collection('monotributo');
-
   try {
+    const monotributoRef = firestoreAdmin.collection('monotributo');
     const monotributoCategories = await monotributoRef.get();
-    const monotributoCategoriesArray: AfipData[] = [];
-    monotributoCategories.forEach((doc) => {
-      monotributoCategoriesArray.push({
+    const monotributoCategoriesArray = monotributoCategories.docs.map((doc) => {
+      const { anualBilling, monthlyPayment } = doc.data();
+      return {
         category: doc.id,
-        anualBilling: doc.data().anualBilling,
-        monthlyPayment: doc.data().monthlyPayment,
-      });
-    });
+        anualBilling,
+        monthlyPayment,
+      };
+    }) as AfipData[];
 
     const response = new Response(JSON.stringify({ monotributoCategoriesArray }), {
       status: 200,

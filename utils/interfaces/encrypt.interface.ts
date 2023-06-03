@@ -5,3 +5,7 @@ export interface Encrypt {
 export interface DecryptResponse {
   decryptedData: string;
 }
+
+export interface DecryptDataRequest {
+  fiscalPassword: string;
+}

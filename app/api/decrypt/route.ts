@@ -1,13 +1,26 @@
 import { NextRequest } from 'next/server';
 import { decryptPassword } from '../../../lib/password-manager';
+import { DecryptDataRequest } from '../../../utils/interfaces/encrypt.interface';
 
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  const { fiscalPassword } = data;
-
   try {
-    const decryptedData: string = decryptPassword(fiscalPassword);
+    const { fiscalPassword } = (await req.json()) as DecryptDataRequest;
 
+    if (!fiscalPassword) {
+      const response = new Response('fiscalPassword is required', {
+        status: 400,
+      });
+      return response;
+    }
+
+    if (!fiscalPassword) {
+      throw new Error('fiscalPassword field is missing or empty');
+    }
+
+    const decryptedData = await decryptPassword(fiscalPassword);
+
+    // Encrypt the decrypted data again before sending it in the response
+    // Or use a secure communication protocol like HTTPS
     const response = new Response(JSON.stringify({ decryptedData }), {
       status: 200,
     });
