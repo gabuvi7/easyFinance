@@ -49,3 +49,14 @@ export const statesValues: Record<string, number> = {
   Jujuy: 22,
   'San Luis': 23,
 };
+
+export enum Currency {
+  ARS = '$',
+  USD = 'USD',
+  EUR = '€',
+  GBP = '£',
+  CNY = '¥',
+  BTC = '₿',
+  ETH = 'Ξ',
+  LTC = 'Ł',
+}

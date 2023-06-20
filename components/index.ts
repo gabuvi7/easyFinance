@@ -3,7 +3,7 @@ export { default as Login } from './Auth/Login';
 export { default as ClientOnly } from './ClientOnly/ClientOnly';
 export { default as CustomCard } from './CustomCard/CustomCard';
 export { default as DashboardTabs } from './DashboardTabs/DashboardTabs';
-export { default as Income } from './DashboardTabs/Items/Income';
+export { default as Income } from './DashboardTabs/Items/Income/Income';
 export { default as DropdownUser } from './DropdownUser/DropdownUser';
 export { default as FirstLoginModal } from './FirstLoginModal/FirstLoginModal';
 export { default as ContentAppLayout } from './Layouts/ContentAppLayout';

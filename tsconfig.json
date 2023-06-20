@@ -33,6 +33,7 @@
       "@interfaces/*": ["./utils/interfaces/*"],
       "@firebaseEF/*": ["./firebase/*"],
       "@lib/*": ["./lib/*"],
+      "@apiHooks/*": ["./utils/apiHooks/*"],
     },
   },
   "include": [

@@ -1,10 +1,11 @@
-import Income from './Income';
+import { ITabsProps } from '@/utils/interfaces/incomes.interface';
+import Income from './Income/Income';
 
-export const Items = [
+export const Items = ({ email }: ITabsProps) => [
   {
     label: 'Income',
     key: '1',
-    children: <Income />,
+    children: <Income email={email} />,
   },
   {
     label: 'Expense',

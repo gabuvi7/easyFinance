@@ -12,6 +12,7 @@ interface UseFetchParams<T> {
   options?: any;
   doInitialCall?: boolean;
   maxRetry?: number;
+  onSuccess?: () => void;
   onError?: (error: any) => void;
   onDataReceived?: (data: T) => void;
 }
@@ -27,6 +28,7 @@ export function useFetch<T>({
   options,
   doInitialCall = true,
   maxRetry = 0,
+  onSuccess,
   onError,
 }: UseFetchParams<T>): FetchResponse<T> {
   const [data, setData] = useState<T | null>(null);
@@ -44,6 +46,7 @@ export function useFetch<T>({
         setData(dataFetched);
         retryCountRef.current = 0; // reset retry count when fetch succeeds
         if (dataReceived) dataReceived.onDataReceived(dataFetched); // Invoke the onDataReceived callback
+        onSuccess?.();
       })
       .catch((errorFetched) => {
         if (retryCountRef.current < maxRetry) {
