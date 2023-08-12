@@ -1,7 +1,9 @@
+/* eslint-disable import/no-cycle */
+
 'use client';
 
-import { ChildrenProps } from '@/utils';
 import { useState, useEffect } from 'react';
+import { ChildrenProps } from '@/utils';
 import { StyledLoading } from '..';
 
 function ClientOnly({ children, ...delegated }: ChildrenProps) {

@@ -1,17 +1,14 @@
 'use client';
 
-import { IncomeData, ITabsProps } from '@/utils/interfaces/incomes.interface';
 import { Space, Table } from 'antd';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
-import { useGetIncomes } from '@/utils/apiHooks';
 import { ColumnsType } from 'antd/es/table';
+import { useGetIncomes } from '@/utils/apiHooks';
+import { IFlattenedIncomeData, IncomeData, ITabsProps } from '@/utils/interfaces/incomes.interface';
 import { Currency } from '@/utils/enums/enums';
 import IncomeForm from './IncomeForm';
-
-interface IFlattenedIncomeData extends IncomeData {
-  totalIncome: number;
-}
+import IncomeChart from './IncomeChart';
 
 function Income({ email }: ITabsProps) {
   const [data, setData] = useState<IFlattenedIncomeData[]>([]);
@@ -97,6 +94,7 @@ function Income({ email }: ITabsProps) {
     <Space direction="vertical" style={{ width: '100%' }}>
       <IncomeForm email={email} refetchIncomes={getIncomes} />
       <Table loading={loadingIncomes} dataSource={data} columns={columns} scroll={{ x: true }} />
+      <IncomeChart incomeFormatedData={data} />
     </Space>
   );
 }

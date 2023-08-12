@@ -1,6 +1,6 @@
+import { notification } from 'antd';
 import { useFetch } from '@/utils/hooks/useFetch';
 import { IncomesResponse } from '@/utils/interfaces/incomes.interface';
-import { notification } from 'antd';
 
 type UsePostIncomeProps = {
   email: string;

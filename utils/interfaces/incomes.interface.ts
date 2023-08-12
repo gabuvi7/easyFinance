@@ -22,3 +22,7 @@ export interface IncomeUploadResponse {
 export interface ITabsProps {
   email: string;
 }
+
+export interface IFlattenedIncomeData extends IncomeData {
+  totalIncome: number;
+}

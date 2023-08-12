@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { usePostIncome } from '@/utils/apiHooks';
 import { Button, DatePicker, Form, Input, InputNumber, Select } from 'antd';
-import { Currency } from '@/utils/enums/enums';
 import moment from 'moment';
+import { usePostIncome } from '@/utils/apiHooks';
+import { Currency } from '@/utils/enums/enums';
 import { IncomeData } from '@/utils/interfaces/incomes.interface';
 import styles from './Income.module.css';
 

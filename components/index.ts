@@ -1,6 +1,5 @@
 /* eslint-disable import/no-cycle */
 export { default as Login } from './Auth/Login';
-export { default as ClientOnly } from './ClientOnly/ClientOnly';
 export { default as CustomCard } from './CustomCard/CustomCard';
 export { default as DashboardTabs } from './DashboardTabs/DashboardTabs';
 export { default as Income } from './DashboardTabs/Items/Income/Income';
