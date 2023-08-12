@@ -1,6 +1,7 @@
 'use client';
 
 import { Layout, Space, theme } from 'antd';
+import moment from 'moment';
 import { IChildrenSession } from '../../utils';
 import ThemeButton from '../ThemeButton/ThemeButton';
 import layoutStyles from './contentApp.module.css';
@@ -39,7 +40,9 @@ function ContentAppLayout({ children, user }: IChildrenSession) {
       >
         {children}
       </Content>
-      <Footer style={{ textAlign: 'center', background: colorBgContainer }}>Gabuvi7 ©2023</Footer>
+      <Footer style={{ textAlign: 'center', background: colorBgContainer }}>
+        <>Gabuvi7 ©{moment().year()}</>
+      </Footer>
     </Layout>
   );
 }
