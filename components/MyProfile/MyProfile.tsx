@@ -4,9 +4,16 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button, Input, notification, Space, Tag, theme as antTheme } from 'antd';
-import { CopyOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { Button, Input, notification, Space, Spin, Tag, theme as antTheme, Tooltip } from 'antd';
+import {
+  CopyOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined,
+  InfoCircleOutlined,
+} from '@ant-design/icons';
 import { DocumentData } from 'firebase-admin/firestore';
+import { IIBBStatus } from '@/utils/enums/enums';
+import { useGetIIBB } from '@/utils/apiHooks';
 import styles from './MyProfile.module.css';
 import CustomCard from '../CustomCard/CustomCard';
 import { PersonalData } from '../../utils/interfaces/user.interface';
@@ -41,6 +48,9 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
         });
       },
     });
+  const { data: iibbData, loading: loadingIIBBData } = useGetIIBB({
+    type: personalData.iIBBStatus.toLowerCase(),
+  });
 
   const getMonthlyBilling = (anualBilling: number) => {
     return Number.parseFloat((anualBilling / 12).toFixed(2));
@@ -101,9 +111,18 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
             <span> ${afipData?.monthlyPayment}/month</span>
           </div>
           <div>
-            <span className={styles.label}>IIBB:</span>
-            <Tag color={colorInfo}>{personalData?.iIBBType}</Tag>-{' '}
-            {personalData?.iIBBStatus === 'Unificado' ? "Doesn't apply" : '$ /month'}
+            <Spin spinning={loadingIIBBData}>
+              <span className={styles.label}>IIBB:</span>
+              <Tag color={colorInfo}>{personalData?.iIBBType}</Tag>-{' '}
+              {personalData?.iIBBStatus === IIBBStatus.UNIFIED
+                ? "Doesn't apply"
+                : `$ ${iibbData?.iibbData?.monthlyPayment ?? ''}/month`}{' '}
+              {personalData?.iIBBStatus === IIBBStatus.GENERAL && (
+                <Tooltip title="Only applies if you make billings that are not type 'E'">
+                  <InfoCircleOutlined />
+                </Tooltip>
+              )}
+            </Spin>
           </div>
         </Space>
       </CustomCard>

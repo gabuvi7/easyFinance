@@ -60,3 +60,8 @@ export enum Currency {
   ETH = 'Ξ',
   LTC = 'Ł',
 }
+
+export enum IIBBStatus {
+  UNIFIED = 'Unified',
+  GENERAL = 'General',
+}

@@ -5,3 +5,9 @@ export async function getMonotributoInfo(category: string) {
   const monotributoDoc = await monotributoRef.get();
   return monotributoDoc.data();
 }
+
+export async function getIIBBInfo(type: string) {
+  const iibbRef = firestoreAdmin.collection('iibb').doc(type!);
+  const iibbDoc = await iibbRef.get();
+  return iibbDoc.data();
+}

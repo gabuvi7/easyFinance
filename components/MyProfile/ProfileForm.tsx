@@ -14,7 +14,7 @@ import {
 import { Button, Col, Form, Input, notification, Row, Select, Switch, Tag, theme } from 'antd';
 import { DocumentData } from 'firebase-admin/firestore';
 import { getKeyByValue } from '../../utils';
-import { RevenueAgencies, statesValues } from '../../utils/enums/enums';
+import { IIBBStatus, RevenueAgencies, statesValues } from '../../utils/enums/enums';
 import { useFetch } from '../../utils/hooks/useFetch';
 import { AfipDataResponse } from '../../utils/interfaces/afip.interface';
 import { DecryptResponse, Encrypt } from '../../utils/interfaces/encrypt.interface';
@@ -168,7 +168,7 @@ function ProfileForm({ userEmail, user }: ProfileArgs) {
       fiscalPassword: formData.fiscalPassword,
       healthInsurance: formData.healthInsurance,
       iIBBType: revenueAgency,
-      iIBBStatus: 'Unified',
+      iIBBStatus: formData.isSimplifiedRegime ? IIBBStatus.UNIFIED : IIBBStatus.GENERAL,
       monotributoCategory: formData.monotributoCategory,
       state: formData.state,
     };
