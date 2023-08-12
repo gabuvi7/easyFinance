@@ -248,14 +248,14 @@ function ProfileForm({ userEmail, user }: ProfileArgs) {
                 hasFeedback
                 className={styles.formItem}
                 labelAlign="left"
-                label="Are you in Simplified Regime?"
+                label="Are you in Simplified Regime of IIBB?"
                 name="isSimplifiedRegime"
               >
                 <Switch
                   checkedChildren={<CheckOutlined />}
                   unCheckedChildren={<CloseOutlined />}
                   onChange={onIsSimplifiedRegimeChange}
-                  defaultChecked
+                  defaultChecked={user?.iIBBStatus === IIBBStatus.UNIFIED}
                 />
               </Form.Item>
             </Col>
