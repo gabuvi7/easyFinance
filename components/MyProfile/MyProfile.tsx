@@ -32,7 +32,7 @@ function MyProfile({ personalData, afipData }: MyProfileArg) {
         method: 'POST',
         body: JSON.stringify({ fiscalPassword: personalData.fiscalPassword }),
       },
-      maxRetry: 3,
+      maxRetry: 5,
       doInitialCall: true,
       onError: () => {
         notification.error({

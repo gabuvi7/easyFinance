@@ -1,9 +1,9 @@
 import crypto from 'crypto';
 
-const algorithm = 'aes-256-gcm';
+const algorithm = 'aes-256-cbc';
 const keyLength = 32;
 const ivLength = 16;
-const authTagLength = 16;
+const saltLength = 16;
 
 if (!process.env.ENCRYPT_PHRASE) {
   throw new Error('ENCRYPT_PHRASE environment variable is not set');
@@ -11,29 +11,36 @@ if (!process.env.ENCRYPT_PHRASE) {
 
 const passphrase = process.env.ENCRYPT_PHRASE as string;
 
-function getKey(): Buffer {
-  return crypto.createHash('sha256').update(passphrase).digest().subarray(0, keyLength);
+function getKey(salt: Buffer): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    crypto.pbkdf2(passphrase, salt, 100000, keyLength, 'sha256', (err, key) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(key);
+      }
+    });
+  });
 }
 
-export function encryptPassword(password: string): string {
-  const key = getKey();
+export async function encryptPassword(password: string): Promise<string> {
+  const salt = crypto.randomBytes(saltLength);
+  const key = await getKey(salt);
   const iv = crypto.randomBytes(ivLength);
   const cipher = crypto.createCipheriv(algorithm, key, iv);
   const cipherText = Buffer.concat([cipher.update(password, 'utf8'), cipher.final()]);
-  const authTag = cipher.getAuthTag();
 
-  return Buffer.concat([iv, authTag, cipherText]).toString('base64');
+  return Buffer.concat([salt, iv, cipherText]).toString('base64');
 }
 
-export function decryptPassword(encryptedPassword: string): string {
+export async function decryptPassword(encryptedPassword: string): Promise<string> {
   const data = Buffer.from(encryptedPassword, 'base64');
-  const iv = data.subarray(0, ivLength);
-  const authTag = data.subarray(ivLength, ivLength + authTagLength);
-  const cipherText = data.subarray(ivLength + authTagLength);
+  const salt = data.subarray(0, saltLength);
+  const iv = data.subarray(saltLength, saltLength + ivLength);
+  const cipherText = data.subarray(saltLength + ivLength);
 
-  const key = getKey();
+  const key = await getKey(salt);
   const decipher = crypto.createDecipheriv(algorithm, key, iv);
-  decipher.setAuthTag(authTag);
 
   const decrypted = Buffer.concat([decipher.update(cipherText), decipher.final()]);
   return decrypted.toString('utf8');

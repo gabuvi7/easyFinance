@@ -5,9 +5,9 @@ import { signOut } from 'next-auth/react';
 import { Avatar, Button, Dropdown, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
+import { getInitials, getTextColor, stringToMulticolor } from '@hooks/custom.hooks';
 import dropdownStyles from './dropdown.module.css';
 import { IUser } from '../../utils';
-import { getInitials, getTextColor, stringToMulticolor } from '../../utils/hooks/custom.hooks';
 
 const { Text } = Typography;
 

@@ -19,7 +19,22 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@components": ["./components/index"],
+      "@pages/*": ["./pages/*"],
+      "@styles/*": ["./styles/*"],
+      "@utils/*": ["./utils/*"],
+      "@hooks/*": ["./utils/hooks/*"],
+      "@api/*": ["./api/*"],
+      "@types/*": ["./types/*"],
+      "@interfaces/*": ["./utils/interfaces/*"],
+      "@firebaseEF/*": ["./firebase/*"],
+      "@lib/*": ["./lib/*"],
+      "@apiHooks/*": ["./utils/apiHooks/*"],
+    },
   },
   "include": [
     "next-env.d.ts",

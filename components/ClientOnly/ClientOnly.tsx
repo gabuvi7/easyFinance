@@ -1,8 +1,10 @@
+/* eslint-disable import/no-cycle */
+
 'use client';
 
 import { useState, useEffect } from 'react';
+import { ChildrenProps } from '@/utils';
 import { StyledLoading } from '..';
-import { ChildrenProps } from '../../utils';
 
 function ClientOnly({ children, ...delegated }: ChildrenProps) {
   const [hasMounted, setHasMounted] = useState(false);
